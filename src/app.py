@@ -77,4 +77,5 @@ app.layout = dbc.Container([
 ], fluid=True)
 
 # app.run(debug=True)
-app.run()
+if __name__ == '__main__':
+    app.run_server(debug=False)
