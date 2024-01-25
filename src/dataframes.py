@@ -49,3 +49,18 @@ topics = [
  'manual_yes_count',
  'manual_no_count'
 ]
+
+# for metadata graphs
+meta_columns = ['unique_words', 'total_words',
+                'featured_count', 'producer_count',
+                'writer_count']
+
+
+# for wordclouds
+# column access names
+count_cols = []
+word_cols = []
+n = 20
+for ind in range(n):
+    word_cols.append(f'word{ind}')
+    count_cols.append(f'word{ind}_count')
