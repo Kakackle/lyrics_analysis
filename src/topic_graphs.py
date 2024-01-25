@@ -6,9 +6,8 @@ import dash_bootstrap_components as dbc
 import plotly.express as px
 import plotly.graph_objects as graph_objects
 
-from src.dataframes import (counts_df, genre_sum_df,
+from dataframes import (counts_df, genre_sum_df,
                             artist_sum_df, topics, genres, artists)
-# from src.app import app
 
 # ---------------------------------------------------------------------------- #
 #                  Topic counts from selected artists by year                 #

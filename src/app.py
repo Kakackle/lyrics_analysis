@@ -7,7 +7,7 @@ from wordcloud import WordCloud
 from plotly.subplots import make_subplots
 import plotly.graph_objects as graph_objects
 
-from src.dataframes import (
+from dataframes import (
     counts_df, top_20_filtered_words_artist_df, top_20_filtered_words_genre_df,
     artist_ngrams_df, genre_ngrams_df, genre_mean_df, genre_sum_df,
     artist_mean_df, artist_sum_df, artist_freq_dist_df, genre_freq_dist_df,
@@ -15,7 +15,7 @@ from src.dataframes import (
     artists, topics,
 )
 
-from src.topic_graphs import (
+from topic_graphs import (
     topic_container, get_topic_callbacks,
     bar_topic_container, get_topic_bar_callbacks,
     artist_bar_topic_container, get_artist_bar_topic_callbacks,
