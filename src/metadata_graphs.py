@@ -28,8 +28,7 @@ genre_metadata_controls = dbc.Card(
 )
 
 genre_metadata_container = dbc.Container([
-    html.H1(children = 'Artist metadata mean by genre comparison', style={'textAlign': 'center'}),
-    html.P(id="genre-metadata-df-shape"),
+    html.H2(children = 'Artist metadata mean by genre comparison', style={'textAlign': 'center'}),
     dbc.Row(
         [
             dbc.Col(genre_metadata_controls, md=4),
@@ -43,7 +42,6 @@ def get_genre_metadata_callbacks(app):
     @app.callback(
         [
             Output('genre-metadata-graph-content', 'figure'),
-            Output('genre-metadata-df-shape', 'children')
         ],
         [
             Input('genre-metadata-selection', 'value'),
@@ -53,7 +51,7 @@ def get_genre_metadata_callbacks(app):
         # meta_fig = px.bar(genre_mean_df, x=genre_mean_df.index, y=genre_mean_df[meta_col])
         meta_fig = px.bar(genre_mean_df, x=genre_mean_df.index, y=genre_mean_df[meta_col])
         # meta_fig = graph_objects.Figure()
-        return meta_fig, f'chosen meta_col: {meta_col}, shape: {genre_mean_df[meta_col].shape}'
+        return [meta_fig,]
     
 # ---------------------------------------------------------------------------- #
 #       Artist metadata (unique_words, producer_count etc) means by artist      #
@@ -73,8 +71,7 @@ artist_metadata_controls = dbc.Card(
 )
 
 artist_metadata_container = dbc.Container([
-    html.H1(children = 'Artist metadata mean by artist comparison', style={'textAlign': 'center'}),
-    html.P(id="artist-metadata-df-shape"),
+    html.H2(children = 'Artist metadata mean by artist comparison', style={'textAlign': 'center'}),
     dbc.Row(
         [
             dbc.Col(artist_metadata_controls, md=4),
@@ -88,7 +85,6 @@ def get_artist_metadata_callbacks(app):
     @app.callback(
         [
             Output('artist-metadata-graph-content', 'figure'),
-            Output('artist-metadata-df-shape', 'children')
         ],
         [
             Input('artist-metadata-selection', 'value'),
@@ -98,7 +94,7 @@ def get_artist_metadata_callbacks(app):
         # meta_fig = px.bar(genre_mean_df, x=genre_mean_df.index, y=genre_mean_df[meta_col])
         meta_fig = px.bar(artist_mean_df, x=artist_mean_df['Artist'], y=artist_mean_df[meta_col])
         # meta_fig = graph_objects.Figure()
-        return meta_fig, f'chosen meta_col: {meta_col}, shape: {artist_mean_df[meta_col].shape}'
+        return [meta_fig,]
 
 
 # ---------------------------------------------------------------------------- #
@@ -128,8 +124,7 @@ bar_line_metadata_controls = dbc.Card(
 )
 
 bar_line_metadata_container = dbc.Container([
-    html.H1(children = 'Artist metadata bar and line overlaid by year', style={'textAlign': 'center'}),
-    html.P(id="bar-line-metadata-df-shape"),
+    html.H2(children = 'Artist metadata bar and line overlaid by year', style={'textAlign': 'center'}),
     dbc.Row(
         [
             dbc.Col(bar_line_metadata_controls, md=4),
@@ -143,7 +138,6 @@ def get_bar_line_metadata_callbacks(app):
     @app.callback(
         [
             Output('bar-line-metadata-graph-content', 'figure'),
-            Output('bar-line-metadata-df-shape', 'children')
         ],
         [
             Input('bar-metadata-selection', 'value'),
@@ -172,5 +166,5 @@ def get_bar_line_metadata_callbacks(app):
         year_fig.update_yaxes(title_text=bar_col, secondary_y=False)
         year_fig.update_yaxes(title_text=line_col, secondary_y=True)
         
-        return year_fig, f'chosen bar_col: {bar_col}, line_col: {line_col}'
+        return [year_fig,]
 

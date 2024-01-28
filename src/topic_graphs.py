@@ -37,7 +37,8 @@ topic_controls = dbc.Card(
         html.Div(
             [
             dbc.Label("Manual word topic"),
-            dcc.Dropdown(topics, 'manual_love_count', id='topic-selection')
+            dcc.Dropdown(topics, 'manual_love_count',
+                          id='topic-selection')
             ]),
     ],
     body=True,
@@ -45,9 +46,8 @@ topic_controls = dbc.Card(
 
 # layout
 topic_container = dbc.Container([
-    html.H1(children = 'Genre and Artist manual topic counts by year', style={'textAlign': 'center'}),
-    html.P(id="multi-artist-dynamic-test"),
-    html.P(id="topic-df-shape"),
+    html.H2(children = 'Genre and Artist manual topic counts by year',
+             style={'textAlign': 'center'}),
     dbc.Row(
         [
             dbc.Col(topic_controls, md=4),
@@ -63,8 +63,6 @@ def get_topic_callbacks(app):
     @app.callback(
         [
             Output('topic-graph-content', 'figure'),
-            Output('topic-df-shape', 'children'),
-            Output('multi-artist-dynamic-test', 'children')
         ],
         [
             Input('topic-genre-selection', 'value'),
@@ -77,12 +75,11 @@ def get_topic_callbacks(app):
         # in case there is only one artist selected
         artists_list = [artist for artist in artists]
         artists_df = genre_df[genre_df['Artist'].isin(artists_list)]
-        # dff = df[df.Artist == artist]
+
         fig = px.bar(artists_df, x='Year', y=topic, color='genre',
                     hover_data = ['Artist'])
-        df_shape = artists_df.shape
         
-        return fig, f'df shape: {df_shape}', f'artists list: {artists}'
+        return [fig,]
 
     # ========= set available artist options based on chosen genre =========
     @app.callback(
@@ -131,8 +128,8 @@ bar_topic_controls = dbc.Card(
 
 # layout
 bar_topic_container = dbc.Container([
-    html.H1(children = 'Genre topic bars comparison', style={'textAlign': 'center'}),
-    html.P(id="bar-topic-df-shape"),
+    html.H2(children = 'Genre topic bars comparison', 
+            style={'textAlign': 'center'}),
     dbc.Row(
         [
             dbc.Col(bar_topic_controls, md=4),
@@ -147,7 +144,6 @@ def get_topic_bar_callbacks(app):
     @app.callback(
         [
             Output('bar-topic-graph-content', 'figure'),
-            Output('bar-topic-df-shape', 'children')
         ],
         [
             Input('bar-topic-selection', 'value'),
@@ -158,10 +154,11 @@ def get_topic_bar_callbacks(app):
         # in case there is only one selected topic - turn input into a list:
         topics_list = [topic for topic in topics]
         for topic in topics_list:
-            bar_fig.add_trace(graph_objects.Bar(y=genre_sum_df[topic].values, x=genre_sum_df.index, name=topic))
+            bar_fig.add_trace(graph_objects.Bar(y=genre_sum_df[topic].values,
+                                                 x=genre_sum_df.index,
+                                                   name=topic))
         
-        return bar_fig, f'topics: {topics} topics_list: {topics_list}'
-        # return fig
+        return [bar_fig,]
     
 
 # ---------------------------------------------------------------------------- #
@@ -190,8 +187,8 @@ artist_bar_topic_controls = dbc.Card(
 )
 
 artist_bar_topic_container = dbc.Container([
-    html.H1(children = 'Within genre artists topic bars comparison', style={'textAlign': 'center'}),
-    html.P(id="artist-bar-topic-df-shape"),
+    html.H2(children = 'Within genre artists topic bars comparison',
+             style={'textAlign': 'center'}),
     dbc.Row(
         [
             dbc.Col(artist_bar_topic_controls, md=4),
@@ -206,7 +203,6 @@ def get_artist_bar_topic_callbacks(app):
     @app.callback(
         [
             Output('artist-bar-topic-graph-content', 'figure'),
-            Output('artist-bar-topic-df-shape', 'children')
         ],
         [
             Input('artist-bar-topic-selection', 'value'),
@@ -220,9 +216,10 @@ def get_artist_bar_topic_callbacks(app):
         # in case there is only one selected topic - turn input into a list:
         topics_list = [topic for topic in topics]
         for topic in topics_list:
-            bar_fig.add_trace(graph_objects.Bar(y=genre_df[topic].values, x=genre_artists, name=topic))
+            bar_fig.add_trace(graph_objects.Bar(y=genre_df[topic].values,
+                                                 x=genre_artists, name=topic))
         
-        return bar_fig, f'topics: {topics} topics_list: {topics_list}'
+        return [bar_fig,]
 
 
 # ---------------------------------------------------------------------------- #
@@ -257,8 +254,8 @@ topic_scatter_controls = dbc.Card(
 )
 
 topic_scatter_container = dbc.Container([
-    html.H1(children = 'scatter for all artists where x = one topic, y = second topic', style={'textAlign': 'center'}),
-    html.P(id="topic-scatter-df-shape"),
+    html.H2(children = 'scatter for all artists where x = one topic, \
+             y = second topic', style={'textAlign': 'center'}),
     dbc.Row(
         [
             dbc.Col(topic_scatter_controls, md=4),
@@ -273,7 +270,6 @@ def get_topic_scatter_callbacks(app):
     @app.callback(
         [
             Output('topic-scatter-graph-content', 'figure'),
-            Output('topic-scatter-df-shape', 'children')
         ],
         [
             Input('scatter-topic-Y-selection', 'value'),
@@ -282,8 +278,9 @@ def get_topic_scatter_callbacks(app):
         ]
     )
     def update_artist_bar_topic_graph(topic_X, topic_Y, colorby):
-        scatter_fig = px.scatter(artist_sum_df, x=topic_X, y=topic_Y, color=colorby)
-        return scatter_fig, f'topic_X: {topic_X}, topic_Y: {topic_Y}, colorby: {colorby}'
-
+        scatter_fig = px.scatter(artist_sum_df, x=topic_X, y=topic_Y,
+                                    color=colorby)
+        # return scatter_fig, f'topic_X: {topic_X}, topic_Y: {topic_Y}, colorby: {colorby}'
+        return [scatter_fig,]
 
 

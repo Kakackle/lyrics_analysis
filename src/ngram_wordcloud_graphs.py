@@ -39,7 +39,7 @@ ngram_artist_wordcloud_controls = dbc.Card(
 )
 
 ngram_artist_wordcloud_container = dbc.Container([
-    html.H1(children = 'Genre and Artist top ngram wordclouds dynamic', style={'textAlign': 'center'}),
+    html.H2(children = 'Genre and Artist top ngram wordclouds dynamic', style={'textAlign': 'center'}),
     html.P(id='ngram-wordcloud-df-shape'),
     dbc.Row(
         [
@@ -55,7 +55,6 @@ def get_ngram_artist_wordcloud_callbacks(app):
     @app.callback(
         [
             Output('ngram-artist-wordcloud-graph-content', 'figure'),
-            Output('ngram-wordcloud-df-shape', 'children')
         ],
         [
             Input('ngram-wordcloud-genre-selection', 'value'),
@@ -94,9 +93,8 @@ def get_ngram_artist_wordcloud_callbacks(app):
             
         gram_wordclouds_fig.update_layout(height = 3*400)
         # gram_wordclouds_fig.show()
-        df_shape = artist_df.shape
         
-        return gram_wordclouds_fig, f'df shape: {df_shape}'
+        return [gram_wordclouds_fig,]
 
     # ========= set available artist options based on chosen genre =========
     @app.callback(

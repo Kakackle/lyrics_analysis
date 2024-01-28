@@ -40,7 +40,7 @@ corr_fig.add_trace(corr_map)
 
 
 corr_container = dbc.Container([
-    html.H1(children = 'Correlation matrix', style={'textAlign': 'center'}),
+    html.H2(children = 'Correlation matrix', style={'textAlign': 'center'}),
     dcc.Graph(id='corr-graph-content',
              figure = corr_fig)
 ], fluid=True)
@@ -86,7 +86,7 @@ topic_spine_fig = graph_objects.Figure(
 topic_spine_fig.update_layout(barmode='relative')
 
 topic_spine_container = dbc.Container([
-    html.H1(children = 'spine graph for topics for female/male split', style={'textAlign': 'center'}),
+    html.H2(children = 'spine graph for topics for female/male split', style={'textAlign': 'center'}),
     dcc.Graph(id='topic-spine-graph-content',
              figure = topic_spine_fig)
 ], fluid=True)
@@ -146,7 +146,7 @@ genre_sentiment_spine_fig = graph_objects.Figure(
 genre_sentiment_spine_fig.update_layout(barmode='relative')
 
 genre_sentiment_spine_container = dbc.Container([
-    html.H1(children = 'spine graph for genre sentiment splits', style={'textAlign': 'center'}),
+    html.H2(children = 'spine graph for genre sentiment splits', style={'textAlign': 'center'}),
     dcc.Graph(id='genre-sentiment-spine-graph-content',
              figure = genre_sentiment_spine_fig)
 ], fluid=True)
@@ -205,7 +205,7 @@ artist_sentiment_spine_fig = graph_objects.Figure(
 artist_sentiment_spine_fig.update_layout(barmode='relative')
 
 artist_sentiment_spine_container = dbc.Container([
-    html.H1(children = 'spine graph for artist sentiment splits', style={'textAlign': 'center'}),
+    html.H2(children = 'spine graph for artist sentiment splits', style={'textAlign': 'center'}),
     dcc.Graph(id='artist-sentiment-spine-graph-content',
              figure = artist_sentiment_spine_fig)
 ], fluid=True)
@@ -233,7 +233,7 @@ for index, emotion in enumerate(emotions):
 genre_emotion_fig.update_layout(barmode='stack')
 
 genre_emotion_spine_container = dbc.Container([
-    html.H1(children = 'spine graph for genre emotion splits', style={'textAlign': 'center'}),
+    html.H2(children = 'spine graph for genre emotion splits', style={'textAlign': 'center'}),
     dcc.Graph(id='genre-emotion-spine-graph-content',
              figure = genre_emotion_fig)
 ], fluid=True)
@@ -282,7 +282,7 @@ genre_wordclouds_fig.update_layout(height = 4 * 400)
 
 # ======= container ========
 genre_wordcloud_container = dbc.Container([
-    html.H1(children = 'Top 20 (filtered) words by genre wordclouds', style={'textAlign': 'center'}),
+    html.H2(children = 'Top 20 (filtered) words by genre wordclouds', style={'textAlign': 'center'}),
     dcc.Graph(id='genre-wordcloud-graph-content',
              figure = genre_wordclouds_fig)
 ], fluid=True)

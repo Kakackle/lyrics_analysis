@@ -38,8 +38,7 @@ artist_wordcloud_controls = dbc.Card(
 )
 
 artist_wordcloud_container = dbc.Container([
-    html.H1(children = 'Genre and Artist top words wordcloud dynamic', style={'textAlign': 'center'}),
-    html.P(id='wordcloud-df-shape'),
+    html.H2(children = 'Genre and Artist top words wordcloud dynamic', style={'textAlign': 'center'}),
     dbc.Row(
         [
             dbc.Col(artist_wordcloud_controls, md=4),
@@ -56,7 +55,6 @@ def get_artist_wordcloud_callbacks(app):
     @app.callback(
         [
             Output('artist-wordcloud-graph-content', 'figure'),
-            Output('wordcloud-df-shape', 'children')
         ],
         [
             Input('wordcloud-genre-selection', 'value'),
@@ -81,8 +79,8 @@ def get_artist_wordcloud_callbacks(app):
         artist_fig.add_trace(graph_objects.Image(z=wordcloud), row = 1, col = 1)
         artist_fig.add_trace(graph_objects.Bar(x=artist_words, y=artist_counts, showlegend = False), row=1, col=2,)
         artist_fig.update_layout(height = 1 * 400)
-        df_shape = artist_df.shape
-        return artist_fig, f'df shape: {df_shape}'
+
+        return [artist_fig,]
 
     # ========= set available artist options based on chosen genre =========
     @app.callback(

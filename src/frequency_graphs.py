@@ -36,8 +36,8 @@ artist_freq_dist_controls = dbc.Card(
 )
 
 artist_freq_dist_container = dbc.Container([
-    html.H1(children = 'Find words that are common to artist more than others', style={'textAlign': 'center'}),
-    html.P(id="artist-freq-dist-df-shape"),
+    html.H2(children = 'Find words that are common to artist more than others',
+             style={'textAlign': 'center'}),
     dbc.Row(
         [
             dbc.Col(artist_freq_dist_controls, md=4),
@@ -51,7 +51,6 @@ def get_artist_freq_dist_callbacks(app):
     @app.callback(
         [
             Output('artist-freq-dist-graph-content', 'figure'),
-            Output('artist-freq-dist-df-shape', 'children')
         ],
         [
             Input('freq-dist-artist-selection', 'value'),
@@ -60,16 +59,19 @@ def get_artist_freq_dist_callbacks(app):
     def update_artist_freq_dist_graph(artists):
         artist_dist_fig = graph_objects.Figure()
         for artist in artists:
-            artist_comp_dict = artist_freq_dist_df[artist_freq_dist_df['Artist'] == artist]['sorted_comparison_dict'].values[0]
+            artist_comp_dict = artist_freq_dist_df[
+                artist_freq_dist_df['Artist'] == artist]['sorted_comparison_dict'].values[0]
+            
             artist_comp_dict = ast.literal_eval(artist_comp_dict)
             artist_comp_dict_no_unique = {k: v for k,v in artist_comp_dict.items() if v != 1000}
+            
             no_unique_20 = take(20, artist_comp_dict_no_unique.items())
             words = [word[0] for word in no_unique_20]
             counts = [word[1] for word in no_unique_20]
             
             artist_dist_fig.add_trace(graph_objects.Bar(x=words, y=counts, name=artist))
                                     
-        return artist_dist_fig, f''
+        return [artist_dist_fig,]
     
 
 # ======== by genre =========
@@ -88,8 +90,8 @@ genre_freq_dist_controls = dbc.Card(
 )
 
 genre_freq_dist_container = dbc.Container([
-    html.H1(children = 'Find words that are common to genre more than others', style={'textAlign': 'center'}),
-    html.P(id="genre-freq-dist-df-shape"),
+    html.H2(children = 'Find words that are common to genre more than others',
+             style={'textAlign': 'center'}),
     dbc.Row(
         [
             dbc.Col(genre_freq_dist_controls, md=4),
@@ -112,7 +114,8 @@ def get_genre_freq_dist_callbacks(app):
     def update_genre_freq_dist_graph(genres):
         genre_dist_fig = graph_objects.Figure()
         for genre in genres:
-            genre_comp_dict = genre_freq_dist_df[genre_freq_dist_df['genre'] == genre]['sorted_comparison_dict'].values[0]
+            genre_comp_dict = genre_freq_dist_df[
+                genre_freq_dist_df['genre'] == genre]['sorted_comparison_dict'].values[0]
             genre_comp_dict = ast.literal_eval(genre_comp_dict)
             genre_comp_dict_no_unique = {k: v for k,v in genre_comp_dict.items() if v != 1000}
             no_unique_20 = take(20, genre_comp_dict_no_unique.items())
@@ -121,4 +124,4 @@ def get_genre_freq_dist_callbacks(app):
             
             genre_dist_fig.add_trace(graph_objects.Bar(x=words, y=counts, name=genre))
                                     
-        return genre_dist_fig, f''
+        return [genre_dist_fig,]
