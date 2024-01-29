@@ -39,7 +39,7 @@ ngram_artist_wordcloud_controls = dbc.Card(
 )
 
 ngram_artist_wordcloud_container = dbc.Container([
-    html.H2(children = 'Genre and Artist top ngram wordclouds dynamic', style={'textAlign': 'center'}),
+    html.H2(children = 'Most common ngrams for artists and genres', style={'textAlign': 'center'}),
     html.P(id='ngram-wordcloud-df-shape'),
     dbc.Row(
         [

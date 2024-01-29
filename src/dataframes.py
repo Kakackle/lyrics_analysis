@@ -64,3 +64,9 @@ n = 20
 for ind in range(n):
     word_cols.append(f'word{ind}')
     count_cols.append(f'word{ind}_count')
+
+# artists with genre and gender
+artist_df = pd.read_csv('../data/artist_df.csv', index_col=0)
+
+# embeddings
+tsne_df = pd.read_csv('../data/artist_lyrics_embeddings.csv')

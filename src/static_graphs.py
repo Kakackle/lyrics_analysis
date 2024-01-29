@@ -14,7 +14,8 @@ from dataframes import (
     genre_sentiment_counts_df, artist_sentiment_counts_df,
     top_20_filtered_words_genre_df, top_20_filtered_words_artist_df,
     meta_columns, topics, genres, artists,
-    word_cols, count_cols
+    word_cols, count_cols,
+    tsne_df
 )
 
 # ---------------------------------------------------------------------------- #
@@ -40,7 +41,7 @@ corr_fig.add_trace(corr_map)
 
 
 corr_container = dbc.Container([
-    html.H2(children = 'Correlation matrix', style={'textAlign': 'center'}),
+    html.H3(children = 'Correlation Matrix', style={'textAlign': 'center'}),
     dcc.Graph(id='corr-graph-content',
              figure = corr_fig)
 ], fluid=True)
@@ -86,7 +87,7 @@ topic_spine_fig = graph_objects.Figure(
 topic_spine_fig.update_layout(barmode='relative')
 
 topic_spine_container = dbc.Container([
-    html.H2(children = 'spine graph for topics for female/male split', style={'textAlign': 'center'}),
+    html.H3(children = 'Topic mentions comparison between male and female artist', style={'textAlign': 'center'}),
     dcc.Graph(id='topic-spine-graph-content',
              figure = topic_spine_fig)
 ], fluid=True)
@@ -146,7 +147,7 @@ genre_sentiment_spine_fig = graph_objects.Figure(
 genre_sentiment_spine_fig.update_layout(barmode='relative')
 
 genre_sentiment_spine_container = dbc.Container([
-    html.H2(children = 'spine graph for genre sentiment splits', style={'textAlign': 'center'}),
+    html.H3(children = 'Sentiment split between genres', style={'textAlign': 'center'}),
     dcc.Graph(id='genre-sentiment-spine-graph-content',
              figure = genre_sentiment_spine_fig)
 ], fluid=True)
@@ -205,7 +206,7 @@ artist_sentiment_spine_fig = graph_objects.Figure(
 artist_sentiment_spine_fig.update_layout(barmode='relative')
 
 artist_sentiment_spine_container = dbc.Container([
-    html.H2(children = 'spine graph for artist sentiment splits', style={'textAlign': 'center'}),
+    html.H3(children = 'Artist sentiment split', style={'textAlign': 'center'}),
     dcc.Graph(id='artist-sentiment-spine-graph-content',
              figure = artist_sentiment_spine_fig)
 ], fluid=True)
@@ -233,7 +234,7 @@ for index, emotion in enumerate(emotions):
 genre_emotion_fig.update_layout(barmode='stack')
 
 genre_emotion_spine_container = dbc.Container([
-    html.H2(children = 'spine graph for genre emotion splits', style={'textAlign': 'center'}),
+    html.H3(children = 'Emotional split for genres', style={'textAlign': 'center'}),
     dcc.Graph(id='genre-emotion-spine-graph-content',
              figure = genre_emotion_fig)
 ], fluid=True)
@@ -282,7 +283,50 @@ genre_wordclouds_fig.update_layout(height = 4 * 400)
 
 # ======= container ========
 genre_wordcloud_container = dbc.Container([
-    html.H2(children = 'Top 20 (filtered) words by genre wordclouds', style={'textAlign': 'center'}),
+    html.H3(children = 'Top 20 (filtered) words by genre WordCloud', style={'textAlign': 'center'}),
     dcc.Graph(id='genre-wordcloud-graph-content',
              figure = genre_wordclouds_fig)
 ], fluid=True)
+
+sentiment_md_1 = dcc.Markdown(
+'''
+    Having considered topical mentions, some relations can become to form. Exploring that further,
+    a machine learning-based approach was taken to determine the general sentiment (positive, negative, neutral)
+    and the general emotion conveyed by each song.
+
+    For sentiment analysis, a pretrained VADER (Valence Aware Dictionary and sEntiment Reasoner) analyzer
+    was used from the popular language processing library [NTLK](https://www.nltk.org/),
+    which's accuracy may not be perfect, as it was intended to be used for more short-form texts,
+    but it may provide a good guiding point.
+
+    Also necessary to mention, not only are lyrics text usually longer form, but often include repetitions,
+    for choruses and otherwise, which may guide models, but also, a key component of lyricsm are 
+    aristic tools such as abstractions, implication and entendres, leaving the songs to more open,
+    non-direct interpretation.
+
+    For emotional classification, a pre-trained [model](https://huggingface.co/mrm8488/t5-base-finetuned-emotion), which
+    was itself transfer-trained from google's T5 text-to-text model
+'''
+)
+
+
+tsne_fig = px.scatter(tsne_df, x='x', y='y', color='genre', hover_data=['Artist'])
+
+tsne_container = dbc.Container([
+    html.H3(children = 't-SNE artist lyrics embeddings relations', style={'textAlign': 'center'}),
+    dcc.Graph(id='tsne-graph-content',
+             figure = tsne_fig)
+], fluid=True)
+
+corr_md_1 = dcc.Markdown(
+'''
+    Finally, potential correlations between various available metrics were explored with
+    a correlation matrix and an attempt at visualizing relations between artists and genres by their lyrics,
+    achieved through firstly vectorizing the combined lyrics for each artist into vectors of large size using a pretrained
+    BERT-based Doc2Vec [model](https://www.analyticsvidhya.com/blog/2020/08/top-4-sentence-embedding-techniques-using-python/)
+    , then using scikit-learn's t-SNE implementation of a dimensionality reduction transformation, for visualization purposes
+
+    Because of t-SNE's approximal behaviour and heavy dimensionality reduction, the results are to be taken with apprehension,
+    certain correlations can nevertheless be seen between genres and artists within them.
+'''
+)

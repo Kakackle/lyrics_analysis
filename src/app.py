@@ -9,7 +9,6 @@ import pandas as pd
 
 from wordcloud import WordCloud
 
-
 from dataframes import (
     counts_df, top_20_filtered_words_artist_df, top_20_filtered_words_genre_df,
     artist_ngrams_df, genre_ngrams_df, genre_mean_df, genre_sum_df,
@@ -28,17 +27,20 @@ from topic_graphs import (
     bar_topic_container, get_topic_bar_callbacks,
     artist_bar_topic_container, get_artist_bar_topic_callbacks,
     topic_scatter_container, get_topic_scatter_callbacks,
+    topic_md_1
     )
 
 from frequency_graphs import (
     artist_freq_dist_container, get_artist_freq_dist_callbacks,
-    genre_freq_dist_container, get_genre_freq_dist_callbacks
+    genre_freq_dist_container, get_genre_freq_dist_callbacks,
+    freq_md_1
 )
 
 from metadata_graphs import (
     genre_metadata_container, get_genre_metadata_callbacks,
     artist_metadata_container, get_artist_metadata_callbacks,
-    bar_line_metadata_container, get_bar_line_metadata_callbacks
+    bar_line_metadata_container, get_bar_line_metadata_callbacks,
+    meta_md_1
 )
 
 from static_graphs import (
@@ -47,7 +49,10 @@ from static_graphs import (
     genre_sentiment_spine_container,
     artist_sentiment_spine_container,
     genre_emotion_spine_container,
-    genre_wordcloud_container
+    genre_wordcloud_container,
+    sentiment_md_1,
+    corr_md_1,
+    tsne_container,
 )
 
 from artist_wordcloud_graphs import (
@@ -59,7 +64,17 @@ from ngram_wordcloud_graphs import (
 )
 
 from analysis_examples import (
-    artist_bar_topic_examples, examples_div
+    artist_bar_topic_examples, examples_div,
+    examples_md_1
+)
+
+from introduction import (
+    md_intro_1, md_intro_2, md_intro_3,
+    counts_df_table, artist_df_table
+)
+
+from about import (
+    about_md_1
 )
 
 app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -111,61 +126,66 @@ CONTENT_STYLE = {
     "padding": "2rem 1rem",
 }
 
-# TODO: przydalby sie tu jakis dropdown dzielacy na kategorie
-# a przede wszystkim dzielacy na czesc interaktywna oraz na statyczna, z wlasna dokonana analiza
-
-interactive_graph_links = dbc.Nav([
-    dbc.NavLink("topic-graph-content", href="#topic-graph-content",
-                             external_link=True),
-    dbc.NavLink("bar-topic-graph-content", href="#bar-topic-graph-content",
+topic_graph_links = dbc.Nav([
+    dbc.NavLink("Topic mentions by genre", href="#bar-topic-graph-content",
                     external_link=True),
-    dbc.NavLink("artist-bar-topic-graph-content", href="#artist-bar-topic-graph-content",
+    dbc.NavLink("Topic mentions by artist", href="#artist-bar-topic-graph-content",
                     external_link=True),
-    dbc.NavLink("topic-scatter-graph-content", href="#topic-scatter-graph-content",
+    dbc.NavLink("Relations between topic mentions", href="#topic-scatter-graph-content",
                     external_link=True),
-    dbc.NavLink("artist-freq-dist-graph-content", href="#artist-freq-dist-graph-content",
+    dbc.NavLink("Artist topic mentions by year", href="#topic-graph-content",
                     external_link=True),
-    dbc.NavLink("genre-freq-dist-graph-content", href="#genre-freq-dist-graph-content",
-                    external_link=True),
-    dbc.NavLink("genre-metadata-graph-content", href="#genre-metadata-graph-content",
-                    external_link=True),
-    dbc.NavLink("genre-metadata-graph-content", href="#genre-metadata-graph-content",
-                    external_link=True),
-    dbc.NavLink("artist-metadata-graph-content", href="#artist-metadata-graph-content",
-                    external_link=True),
-    dbc.NavLink("bar-line-metadata-graph-content", href="#bar-line-metadata-graph-content",
-                    external_link=True),
-    dbc.NavLink("corr-graph-content", href="#corr-graph-content",
-                    external_link=True),
-    dbc.NavLink("topic-spine-graph-content", href="#topic-spine-graph-content",
-                    external_link=True),
-    dbc.NavLink("genre-sentiment-spine-graph-content", href="#genre-sentiment-spine-graph-content",
-                    external_link=True),
-    dbc.NavLink("artist-sentiment-spine-graph-content", href="#artist-sentiment-spine-graph-content",
-                    external_link=True),
-    dbc.NavLink("genre-emotion-spine-graph-content", href="#genre-emotion-spine-graph-content",
-                    external_link=True),
-    dbc.NavLink("genre-wordcloud-graph-content", href="#genre-wordcloud-graph-content",
-                    external_link=True),
-    dbc.NavLink("artist-wordcloud-graph-content", href="#artist-wordcloud-graph-content",
-                    external_link=True),
-    dbc.NavLink("genre-wordcloud-graph-content", href="#genre-wordcloud-graph-content",
-                    external_link=True),
-    dbc.NavLink("ngram-artist-wordcloud-graph-content", href="#ngram-artist-wordcloud-graph-content",
+    dbc.NavLink("Topic mentions comparison between male and female artist", href="#topic-spine-graph-content",
                     external_link=True),
     ],
     vertical=True,
     pills=True,
 )
 
-topic_graph_links = dbc.Nav([
-    dbc.NavLink("topic-graph-content", href="#topic-graph-content",
-                             external_link=True),
-    dbc.NavLink("bar-topic-graph-content", href="#bar-topic-graph-content",
+sentiment_graph_links = dbc.Nav([
+    dbc.NavLink("Sentiment split between genres", href="#genre-sentiment-spine-graph-content",
                     external_link=True),
-    dbc.NavLink("artist-bar-topic-graph-content", href="#artist-bar-topic-graph-content",
+    dbc.NavLink("Sentiment split between artists", href="#artist-sentiment-spine-graph-content",
                     external_link=True),
-    dbc.NavLink("topic-scatter-graph-content", href="#topic-scatter-graph-content",
+    dbc.NavLink("Emotional split for genres", href="#genre-emotion-spine-graph-content",
+                    external_link=True),
+    ],
+    vertical=True,
+    pills=True,
+)
+
+word_graph_links = dbc.Nav([
+    dbc.NavLink("Words more common to one artist than others", href="#artist-freq-dist-graph-content",
+                    external_link=True),
+    dbc.NavLink("Words more common to one genre than others", href="#genre-freq-dist-graph-content",
+                    external_link=True),
+    dbc.NavLink("Top 20 (filtered) words by genre WordCloud'", href="#genre-wordcloud-graph-content",
+                    external_link=True),
+    dbc.NavLink("Dynamic top words wordcloud", href="#artist-wordcloud-graph-content",
+                    external_link=True),
+    dbc.NavLink("Most common ngrams for artists and genres", href="#ngram-artist-wordcloud-graph-content",
+                    external_link=True),
+    ],
+    vertical=True,
+    pills=True,
+)
+
+meta_graph_links = dbc.Nav([
+    dbc.NavLink("Artist metadata by genre (mean)", href="#genre-metadata-graph-content",
+                    external_link=True),
+    dbc.NavLink("Artist metadata by artist (mean)", href="#artist-metadata-graph-content",
+                    external_link=True),
+    dbc.NavLink("Artist metadata bar and line overlaid by year", href="#bar-line-metadata-graph-content",
+                    external_link=True),
+    ],
+    vertical=True,
+    pills=True,
+)
+
+corr_sne_graph_links = dbc.Nav([
+    dbc.NavLink("Correlation Matrix", href="#corr-graph-content",
+                    external_link=True),
+    dbc.NavLink("t-SNE", href="#tsne-graph-content",
                     external_link=True),
     ],
     vertical=True,
@@ -174,45 +194,88 @@ topic_graph_links = dbc.Nav([
 
 
 static_graph_links = dbc.Nav([
-    dbc.NavLink("examples-div", href="#examples-div",
+    dbc.NavLink("Examplary analysis", href="#examples-div",
                     external_link=True),
     ],
     vertical=True,
     pills=True,
 )
 
+introduction_links = dbc.Nav([
+    dbc.NavLink("Home", href="#start", external_link=True),
+    dbc.NavLink("Markdown Intro", href="#md-intro", external_link=True),
+    dbc.NavLink("Counts df", href="#counts-df", external_link=True),
+    ],
+    vertical=True,
+    pills=True,
+)
+
+extra_links = dbc.Nav([
+    dbc.NavLink("About", href="#about-extra", external_link=True),
+    ],
+    vertical=True,
+    pills=True,
+)
+
+
 sidebar_groups = html.Div(
     dbc.Accordion(
         [
             dbc.AccordionItem(
                 [
-                    dbc.NavLink("Home", href="#start", external_link=True),
+                    introduction_links,
                 ],
-                title="Home / Intro",
+                title="Home / Introduction",
             ),
+
             dbc.AccordionItem(
                 [
-                    interactive_graph_links,
+                    dbc.Accordion(
+                        [
+                        dbc.AccordionItem(
+                                [
+                                    topic_graph_links,
+                                ],
+                                title = 'Topic charts'
+                            ),
+                        dbc.AccordionItem(
+                                [
+                                    sentiment_graph_links,
+                                ],
+                                title = 'Sentiment charts'
+                            ),  
+                        dbc.AccordionItem(
+                                [
+                                    word_graph_links,
+                                ],
+                                title = 'Word charts'
+                            ),  
+                        dbc.AccordionItem(
+                                [
+                                    meta_graph_links,
+                                ],
+                                title = 'Meta charts'
+                            ),  
+                        dbc.AccordionItem(
+                                [
+                                    corr_sne_graph_links,
+                                ],
+                                title = 'Corr/sne charts'
+                            ),  
+                        ],
+                    )
                 ],
                 title="Interactive charts",
             ),
+
             dbc.AccordionItem(
                 [
                     static_graph_links,
+                    extra_links,
                 ],
-                title="Static graph links",
+                title="Static analysis",
             ),
 
-            dbc.Accordion(
-                [
-                    dbc.AccordionItem(
-                        [
-                            topic_graph_links,
-                        ],
-                        title="Interactive topic graphs"
-                    )
-                ]
-            )
 
         ],
     )
@@ -232,102 +295,76 @@ sidebar = html.Div(
     style=SIDEBAR_STYLE,
 )
 
-# ---------------------------------------------------------------------------- #
-#                       df table and extra markdown intro                      #
-# ---------------------------------------------------------------------------- #
 
-## table
-df_table = dash_table.DataTable(
-    counts_df.to_dict('records'),
-    columns=[{"name": c, "id": c} for c in counts_df.columns],
-
-    filter_action="native",
-    sort_action="native",
-    # sort_mode="multi",
-
-    page_action="native",
-    page_current= 0,
-    page_size= 10,
-    style_cell={'textAlign': 'left'},
-
-    style_as_list_view=True,
-    style_data={
-        'color': 'black',
-        'backgroundColor': 'white'
-    },
-    style_data_conditional=[
-        {
-            'if': {'row_index': 'odd'},
-            'backgroundColor': 'rgb(220, 220, 220)',
-        }
-    ],
-    style_header={
-        'backgroundColor': 'rgb(210, 210, 210)',
-        'color': 'black',
-        'fontWeight': 'bold'
-    },
-    style_table={"overflowX": "auto"},
-)
-
-
-md_intro = dcc.Markdown(
-'''
-    Analyzing relationships between lyrics of selected 10 artists from selected 4 genres
-    (pop, rap, rock and soul), the artists include:  
-
-    TODO: tutaj jakas tablica z artystami i przynaleznoscia do gatunkow
-
-    from whose discographies the lyrics to each artist's popular songs were taken from genius.com
-    using an API wrapper by TODO: link do johnwmillr
-
-    The main metric choice was personal taste, but also guided by popularity on
-    artist releases on rateyourmusic.com
-
-    With 20 songs, the analysis can at best be considered powierzchowna, ciekawostkowa, mimo to
-    zaleznosci sa zauwazalne
-
-    Potem cos o metodach typu o topics itd  
-
-    * du
-    * du 
-    * du
-'''
-)
 
 # ---------------------------------------------------------------------------- #
 #                        app content layout                                    #
 # ---------------------------------------------------------------------------- #
 
-content_div = html.Div([
+intro_items = html.Div([
     html.H1(children='Lyrics analysis project', id='start'),
-    md_intro,
-    df_table,
-    html.Hr(),
-    topic_container, html.Hr(),
-    bar_topic_container, html.Hr(),
-    artist_bar_topic_container, html.Hr(),
-    topic_scatter_container, html.Hr(),
+    md_intro_1,
+    artist_df_table,
+    md_intro_2,
+    counts_df_table,
+    md_intro_3
+])
 
-    artist_freq_dist_container, html.Hr(),
-    genre_freq_dist_container, html.Hr(),
+topic_charts = html.Div([
+    html.H1(children='Topical analysis'),
+    topic_md_1,
+    bar_topic_container,
+    artist_bar_topic_container, 
+    topic_scatter_container, 
+    topic_container,
+    topic_spine_container
+])
 
-    genre_metadata_container, html.Hr(),
-    artist_metadata_container, html.Hr(),
-    bar_line_metadata_container, html.Hr(),
+sentiment_charts = html.Div([
+    html.H1(children='Sentiment / emotion analysis'),
+    sentiment_md_1,
+    genre_sentiment_spine_container,
+    artist_sentiment_spine_container,
+    genre_emotion_spine_container,
+])
 
-    corr_container, html.Hr(),
-    topic_spine_container, html.Hr(),
-    genre_sentiment_spine_container, html.Hr(),
-    artist_sentiment_spine_container, html.Hr(),
-    genre_emotion_spine_container, html.Hr(),
-    genre_wordcloud_container, html.Hr(),
+words_charts = html.Div([
+    html.H1('Word-by-word analysis'),
+    freq_md_1,
+    artist_freq_dist_container,
+    genre_freq_dist_container,
+    genre_wordcloud_container,
+    artist_wordcloud_container,
+    ngram_artist_wordcloud_container,
+])
 
-    artist_wordcloud_container, html.Hr(),
+meta_charts = html.Div([
+    html.H1('Song metadata analysis'),
+    meta_md_1,
+    genre_metadata_container,
+    artist_metadata_container,
+    bar_line_metadata_container,
+])
 
-    ngram_artist_wordcloud_container, html.Hr(),
+corr_sne_charts = html.Div([
+    html.H1('Correlations'),
+    corr_md_1,
+    corr_container,
+    tsne_container,
+])
 
-    # artist_bar_topic_examples, html.Hr(),
-    examples_div
+content_div = html.Div([
+    intro_items, html.Hr(),
+    topic_charts, html.Hr(),
+    sentiment_charts, html.Hr(),
+    words_charts, html.Hr(),
+    meta_charts, html.Hr(),
+    corr_sne_charts, html.Hr(),
+
+    html.H1(children='Examplary / static analysis'),
+    examples_md_1,
+    examples_div,
+    about_md_1,
 
 ], id='page-content', style=CONTENT_STYLE)
 

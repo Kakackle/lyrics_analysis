@@ -28,7 +28,7 @@ genre_metadata_controls = dbc.Card(
 )
 
 genre_metadata_container = dbc.Container([
-    html.H2(children = 'Artist metadata mean by genre comparison', style={'textAlign': 'center'}),
+    html.H3(children = 'Artist metadata by genre (mean)', style={'textAlign': 'center'}),
     dbc.Row(
         [
             dbc.Col(genre_metadata_controls, md=4),
@@ -71,7 +71,7 @@ artist_metadata_controls = dbc.Card(
 )
 
 artist_metadata_container = dbc.Container([
-    html.H2(children = 'Artist metadata mean by artist comparison', style={'textAlign': 'center'}),
+    html.H3(children = 'Artist metadata by artist (mean)', style={'textAlign': 'center'}),
     dbc.Row(
         [
             dbc.Col(artist_metadata_controls, md=4),
@@ -124,7 +124,7 @@ bar_line_metadata_controls = dbc.Card(
 )
 
 bar_line_metadata_container = dbc.Container([
-    html.H2(children = 'Artist metadata bar and line overlaid by year', style={'textAlign': 'center'}),
+    html.H3(children = 'Artist metadata bar and line overlaid by year', style={'textAlign': 'center'}),
     dbc.Row(
         [
             dbc.Col(bar_line_metadata_controls, md=4),
@@ -167,4 +167,16 @@ def get_bar_line_metadata_callbacks(app):
         year_fig.update_yaxes(title_text=line_col, secondary_y=True)
         
         return [year_fig,]
+    
+meta_md_1 = dcc.Markdown(
+'''
+    Additionally, other potential differentiating factors, not directly related to lyrics were explored.
+    These factors include artist metadata such as featured artist, producer and writer counts for songs, the 
+    and the vocabulary sizes.
+
+    These visualizations are meant to look for potential correlations between them both between genres and artists,
+    which may help add some context or potential causes to differences observed from previous parts.
+     
+'''
+)
 

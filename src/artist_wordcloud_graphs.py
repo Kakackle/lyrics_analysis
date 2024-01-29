@@ -38,7 +38,7 @@ artist_wordcloud_controls = dbc.Card(
 )
 
 artist_wordcloud_container = dbc.Container([
-    html.H2(children = 'Genre and Artist top words wordcloud dynamic', style={'textAlign': 'center'}),
+    html.H3(children = 'Dynamic top words wordcloud', style={'textAlign': 'center'}),
     dbc.Row(
         [
             dbc.Col(artist_wordcloud_controls, md=4),

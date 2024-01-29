@@ -36,7 +36,7 @@ topic_controls = dbc.Card(
             ]),
         html.Div(
             [
-            dbc.Label("Manual word topic"),
+            dbc.Label("Topic mentions"),
             dcc.Dropdown(topics, 'manual_love_count',
                           id='topic-selection')
             ]),
@@ -46,7 +46,7 @@ topic_controls = dbc.Card(
 
 # layout
 topic_container = dbc.Container([
-    html.H2(children = 'Genre and Artist manual topic counts by year',
+    html.H3(children = 'Artist topic mentions by year',
              style={'textAlign': 'center'}),
     dbc.Row(
         [
@@ -116,7 +116,7 @@ bar_topic_controls = dbc.Card(
     [
         html.Div(
             [
-            dbc.Label("Manual word topic"),
+            dbc.Label("Choose the topics to visualize"),
             dcc.Dropdown(options = topics,
                         value = ['manual_love_count',],
                         id='bar-topic-selection',
@@ -128,8 +128,9 @@ bar_topic_controls = dbc.Card(
 
 # layout
 bar_topic_container = dbc.Container([
-    html.H2(children = 'Genre topic bars comparison', 
+    html.H3(children = 'Topic mentions by genre', 
             style={'textAlign': 'center'}),
+    html.P(children='Using total count of topical word mentions as the metric'),
     dbc.Row(
         [
             dbc.Col(bar_topic_controls, md=4),
@@ -169,7 +170,7 @@ artist_bar_topic_controls = dbc.Card(
     [
         html.Div(
             [
-            dbc.Label("Manual word topic"),
+            dbc.Label("Topic mentions"),
             dcc.Dropdown(options = topics,
                         value = ['manual_love_count',],
                         id='artist-bar-topic-selection',
@@ -187,7 +188,7 @@ artist_bar_topic_controls = dbc.Card(
 )
 
 artist_bar_topic_container = dbc.Container([
-    html.H2(children = 'Within genre artists topic bars comparison',
+    html.H3(children = 'Within-genre comparison of topic mentions',
              style={'textAlign': 'center'}),
     dbc.Row(
         [
@@ -230,21 +231,21 @@ topic_scatter_controls = dbc.Card(
     [
         html.Div(
             [
-            dbc.Label("Manual word topic (Y)"),
+            dbc.Label("Topic mentions (Y)"),
             dcc.Dropdown(options = topics,
                         value = 'manual_joy_count',
                         id='scatter-topic-Y-selection')
             ]),
         html.Div(
             [
-            dbc.Label("Manual word topic (X)"),
+            dbc.Label("Topic mentions (X)"),
             dcc.Dropdown(options = topics,
                         value = 'manual_sadness_count',
                         id='scatter-topic-X-selection')
             ]),
         html.Div(
             [
-            dbc.Label("color by"),
+            dbc.Label("Color by metric"),
             dcc.Dropdown(options = ['genre', 'gender'],
                         value = 'genre',
                         id='topic-scatter-color-selection')
@@ -254,8 +255,7 @@ topic_scatter_controls = dbc.Card(
 )
 
 topic_scatter_container = dbc.Container([
-    html.H2(children = 'scatter for all artists where x = one topic, \
-             y = second topic', style={'textAlign': 'center'}),
+    html.H3(children = 'Relations between topic mentions', style={'textAlign': 'center'}),
     dbc.Row(
         [
             dbc.Col(topic_scatter_controls, md=4),
@@ -284,3 +284,22 @@ def get_topic_scatter_callbacks(app):
         return [scatter_fig,]
 
 
+topic_md_1 = dcc.Markdown(
+'''
+    The initial goal of the whole analysis project, was to explore the data and look for potential
+    tendencies, trends or other metrics that could be observed as clearly differentiating (or connecting)
+    the lyrics of artists between and withing genres.
+    
+    For this part, a system was devised to look for mentions of words related to certain topics, such as 'love',
+    'sadness', 'joy' or groups souch as gendered word or representing affirmation or denial.
+
+    For example, for 'love', the words considered to the group included 'love', 'lover', 'honey', 'baby',
+    'heart', sweetheart', 'loverboy', 'babygirl'
+
+    The choicer of the words for each group was done manually, using tools such as a [Thesaurus](https://www.thesaurus.com/)
+    and other manual word similarity lookup attempts.
+
+    The usage of a word/sentence vectorizer with embeddings for determining word closeness/similarity was considered,
+    but initial experiments did not yield sufficiently satisfying results.
+'''
+)

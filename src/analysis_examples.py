@@ -48,4 +48,11 @@ examples_div = html.Div(
     ],
     id='examples-div'
 )
+
+examples_md_1 = dcc.Markdown(
+'''
+    Additionally, as stated in the introduction, static example comparisons / observations were taken, to provide further insight / a proper, 
+    non-interactive analysis.
+'''
+)
     

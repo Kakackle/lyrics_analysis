@@ -36,7 +36,7 @@ artist_freq_dist_controls = dbc.Card(
 )
 
 artist_freq_dist_container = dbc.Container([
-    html.H2(children = 'Find words that are common to artist more than others',
+    html.H3(children = 'Words more common to one artist than others',
              style={'textAlign': 'center'}),
     dbc.Row(
         [
@@ -90,7 +90,7 @@ genre_freq_dist_controls = dbc.Card(
 )
 
 genre_freq_dist_container = dbc.Container([
-    html.H2(children = 'Find words that are common to genre more than others',
+    html.H3(children = 'Words more are common to one genre than others',
              style={'textAlign': 'center'}),
     dbc.Row(
         [
@@ -125,3 +125,23 @@ def get_genre_freq_dist_callbacks(app):
             genre_dist_fig.add_trace(graph_objects.Bar(x=words, y=counts, name=genre))
                                     
         return [genre_dist_fig,]
+    
+freq_md_1 = dcc.Markdown(
+'''
+    For this part of analysis, a deeper look at of what words do the analyzed lyrcic actually comprise
+    and can we find any noticable relations between artists, genres etc. For example are there particular
+    words of phrases that often get used within a genre or between genres.
+    
+    For this, using [TextBlob](https://textblob.readthedocs.io/en/dev/) - a NLTK wrapper library,
+    both the frequencies of occurences of words in songs (ignoring popular english stopwords
+    and some other common words such as "I", "get" etc) were taken, as well as frequencies of occurences
+    of their common n-grams (word groupings, phrases) of length 2,3 and 4.
+
+    The visualization of most frequent words for genres and artistst are presented both in a Wordcloud
+    (using the [WordCloud](https://amueller.github.io/word_cloud/) library) and the bar chart forms.
+
+    Additionally, inspired by a post from [Degenerate State](https://www.degeneratestate.org/posts/2016/Apr/20/heavy-metal-and-natural-language-processing-part-1/),
+    a metric of "uniqueness" was created for words used by each artist and within each genre, which was calculated by the equation:
+    $\log(occurences_in_artist / occurences_in_others)$
+'''
+)
