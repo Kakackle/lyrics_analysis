@@ -14,7 +14,7 @@ artist_bar_topic_pop_img = io.imread('../results/topic_counts_by_artist_pop_exam
 artist_bar_topic_pop_fig = px.imshow(artist_bar_topic_pop_img)
 
 artist_bar_topic_examples = dbc.Container([
-    html.H2(children='some examples', id='artist-bar-topic-examples'),
+    html.H3(children='Topical analysis examples', id='artist-bar-topic-examples'),
 
     dbc.Row(
             [

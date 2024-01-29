@@ -90,7 +90,7 @@ genre_freq_dist_controls = dbc.Card(
 )
 
 genre_freq_dist_container = dbc.Container([
-    html.H3(children = 'Words more are common to one genre than others',
+    html.H3(children = 'Words more common to one genre than others',
              style={'textAlign': 'center'}),
     dbc.Row(
         [
@@ -105,7 +105,6 @@ def get_genre_freq_dist_callbacks(app):
     @app.callback(
         [
             Output('genre-freq-dist-graph-content', 'figure'),
-            Output('genre-freq-dist-df-shape', 'children')
         ],
         [
             Input('freq-dist-genre-selection', 'value'),

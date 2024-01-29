@@ -30,6 +30,10 @@ from topic_graphs import (
     topic_md_1
     )
 
+from example_lyrics import (
+    topic_max_md_1, topic_max_df_table
+)
+
 from frequency_graphs import (
     artist_freq_dist_container, get_artist_freq_dist_callbacks,
     genre_freq_dist_container, get_genre_freq_dist_callbacks,
@@ -40,6 +44,7 @@ from metadata_graphs import (
     genre_metadata_container, get_genre_metadata_callbacks,
     artist_metadata_container, get_artist_metadata_callbacks,
     bar_line_metadata_container, get_bar_line_metadata_callbacks,
+    bar_line_metadata_topic_container, get_bar_line_metadata_topic_callbacks,
     meta_md_1
 )
 
@@ -96,6 +101,7 @@ get_genre_freq_dist_callbacks(app)
 get_genre_metadata_callbacks(app)
 get_artist_metadata_callbacks(app)
 get_bar_line_metadata_callbacks(app)
+get_bar_line_metadata_topic_callbacks(app)
 
 get_artist_wordcloud_callbacks(app)
 
@@ -176,6 +182,8 @@ meta_graph_links = dbc.Nav([
     dbc.NavLink("Artist metadata by artist (mean)", href="#artist-metadata-graph-content",
                     external_link=True),
     dbc.NavLink("Artist metadata bar and line overlaid by year", href="#bar-line-metadata-graph-content",
+                    external_link=True),
+    dbc.NavLink("Genre metadata vs topical mentions", href="#bar-line-metadata-topic-graph-content",
                     external_link=True),
     ],
     vertical=True,
@@ -284,10 +292,10 @@ sidebar_groups = html.Div(
 
 sidebar = html.Div(
     [
-        html.H2("Sidebar", className="display-4"),
+        html.H2("Lyrics analysis", className="display-4"),
         html.Hr(),
         html.P(
-            "A simple sidebar layout with navigation links for same page", 
+            "Navigate to sections of the analysis", 
             className="lead"
         ),
         sidebar_groups,
@@ -317,7 +325,9 @@ topic_charts = html.Div([
     artist_bar_topic_container, 
     topic_scatter_container, 
     topic_container,
-    topic_spine_container
+    topic_spine_container,
+    topic_max_md_1,
+    topic_max_df_table
 ])
 
 sentiment_charts = html.Div([
@@ -344,6 +354,7 @@ meta_charts = html.Div([
     genre_metadata_container,
     artist_metadata_container,
     bar_line_metadata_container,
+    bar_line_metadata_topic_container,
 ])
 
 corr_sne_charts = html.Div([

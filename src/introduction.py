@@ -94,6 +94,7 @@ counts_df_table = dash_table.DataTable(
     style_table={"overflowX": "auto"},
     id='counts-df'
 )
+
 ## table
 artist_df_table = dash_table.DataTable(
     artist_df.to_dict('records'),

@@ -70,3 +70,7 @@ artist_df = pd.read_csv('../data/artist_df.csv', index_col=0)
 
 # embeddings
 tsne_df = pd.read_csv('../data/artist_lyrics_embeddings.csv')
+
+
+# songs with highest topic counts
+topic_max_df = pd.read_csv('../data/topic_max_df.csv', index_col=0)

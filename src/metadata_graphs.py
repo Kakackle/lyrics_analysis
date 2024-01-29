@@ -8,7 +8,8 @@ from plotly.subplots import make_subplots
 from dataframes import (
     genre_mean_df, artist_mean_df,
     counts_df,
-    meta_columns
+    meta_columns,
+    topics
 )
 
 # ---------------------------------------------------------------------------- #
@@ -167,6 +168,76 @@ def get_bar_line_metadata_callbacks(app):
         year_fig.update_yaxes(title_text=line_col, secondary_y=True)
         
         return [year_fig,]
+    
+# ---------------------------------------------------------------------------- #
+#                    genre bar line metadata vs topics                         #
+# ---------------------------------------------------------------------------- #
+    
+bar_line_metadata_topic_controls = dbc.Card(
+    [
+        html.Div(
+            [
+            dbc.Label("Bar topic column"),
+            dcc.Dropdown(options = topics,
+                        value = 'manual_love_count',
+                        id='bar-metadata-topic-topic-selection')
+            ]),
+        html.Div(
+            [
+            dbc.Label("Line metadata column"),
+            dcc.Dropdown(options = meta_columns,
+                        value = 'writer_count',
+                        id='line-metadata-topic-meta-selection')
+            ]),
+    ],
+    body=True,
+)
+
+bar_line_metadata_topic_container = dbc.Container([
+    html.H3(children = 'Genre metadata vs topical mentions', style={'textAlign': 'center'}),
+    dbc.Row(
+        [
+            dbc.Col(bar_line_metadata_topic_controls, md=4),
+            dbc.Col(dcc.Graph(id='bar-line-metadata-topic-graph-content'), md=8),
+        ],
+        align="center",
+    ),
+], fluid=True)
+
+def get_bar_line_metadata_topic_callbacks(app):
+    @app.callback(
+        [
+            Output('bar-line-metadata-topic-graph-content', 'figure'),
+        ],
+        [
+            Input('bar-metadata-topic-topic-selection', 'value'),
+            Input('line-metadata-topic-meta-selection', 'value'),
+        ]
+    )
+    def update_bar_line_metadata_topic_graph(bar_col, line_col):
+        bl_fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+        bl_fig.add_trace(
+        graph_objects.Bar(x=genre_mean_df.index, y=genre_mean_df[bar_col],
+                            name=bar_col),
+        secondary_y=False,
+        )
+
+        bl_fig.add_trace(
+        graph_objects.Scatter(x=genre_mean_df.index, y=genre_mean_df[line_col],
+                                name=line_col),
+        secondary_y=True,
+        )
+
+        bl_fig.update_layout(
+            title_text=f"{bar_col} and {line_col}"
+        )
+        # Set y-axes titles
+        bl_fig.update_yaxes(title_text=bar_col, secondary_y=False)
+        bl_fig.update_yaxes(title_text=line_col, secondary_y=True)
+        
+        return [bl_fig,]
+
     
 meta_md_1 = dcc.Markdown(
 '''
