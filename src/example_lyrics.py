@@ -37,7 +37,7 @@ topic_max_md_1 = dcc.Markdown(
 )
 
 topic_max_df_table = dash_table.DataTable(
-    counts_df.to_dict('records'),
+    topic_max_df.to_dict('records'),
     columns=[{"name": c, "id": c} for c in topic_max_df.columns],
 
     filter_action="native",

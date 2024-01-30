@@ -69,8 +69,18 @@ from ngram_wordcloud_graphs import (
 )
 
 from analysis_examples import (
-    artist_bar_topic_examples, examples_div,
-    examples_md_1
+    examples_md_1,
+    topic_images_1,
+    examples_md_2,
+    topic_images_2,
+    examples_md_3,
+    sentiment_images,
+    examples_md_4,
+    unique_word_images_1,
+    examples_md_5,
+    unique_word_images_2,
+    examples_md_6,
+    meta_images
 )
 
 from introduction import (
@@ -364,6 +374,21 @@ corr_sne_charts = html.Div([
     tsne_container,
 ])
 
+examples_div = html.Div([
+    examples_md_1,
+    topic_images_1,
+    examples_md_2,
+    topic_images_2,
+    examples_md_3,
+    sentiment_images,
+    examples_md_4,
+    unique_word_images_1,
+    examples_md_5,
+    unique_word_images_2,
+    examples_md_6,
+    meta_images
+])
+
 content_div = html.Div([
     intro_items, html.Hr(),
     topic_charts, html.Hr(),
@@ -373,8 +398,8 @@ content_div = html.Div([
     corr_sne_charts, html.Hr(),
 
     html.H1(children='Examplary / static analysis'),
-    examples_md_1,
     examples_div,
+
     about_md_1,
 
 ], id='page-content', style=CONTENT_STYLE)
