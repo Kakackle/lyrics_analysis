@@ -1,23 +1,6 @@
 from dash import Dash, html, dcc, callback, Output, Input, dash_table
 import dash_bootstrap_components as dbc
 
-import plotly.express as px
-from plotly.subplots import make_subplots
-import plotly.graph_objects as graph_objects
-
-import pandas as pd
-
-from wordcloud import WordCloud
-
-from dataframes import (
-    counts_df, top_20_filtered_words_artist_df, top_20_filtered_words_genre_df,
-    artist_ngrams_df, genre_ngrams_df, genre_mean_df, genre_sum_df,
-    artist_mean_df, artist_sum_df, artist_freq_dist_df, genre_freq_dist_df,
-    artist_sentiment_counts_df, genre_sentiment_counts_df,
-    artists, topics,
-)
-
-
 # ---------------------------------------------------------------------------- #
 #               import graph containers and callbacks from files               #
 # ---------------------------------------------------------------------------- #
@@ -92,6 +75,17 @@ from about import (
     about_md_1
 )
 
+from decades_analysis import (
+    decade_bar_topic_container, get_decade_bar_topic_callbacks,
+    decade_metadata_container, get_decade_medatata_callbacks,
+    decade_artist_metadata_container, get_decade_artist_metadata_callbacks,
+    decade_corr_container,
+    decade_wordcloud_container,
+    decades_md_1,
+    decades_md_2,
+    decades_images_1
+)
+
 app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 server = app.server
@@ -116,6 +110,10 @@ get_bar_line_metadata_topic_callbacks(app)
 get_artist_wordcloud_callbacks(app)
 
 get_ngram_artist_wordcloud_callbacks(app)
+
+get_decade_bar_topic_callbacks(app)
+get_decade_medatata_callbacks(app)
+get_decade_artist_metadata_callbacks(app)
 
 
 # ---------------------------------------------------------------------------- #
@@ -235,17 +233,34 @@ extra_links = dbc.Nav([
     pills=True,
 )
 
+decade_links = dbc.Nav([
+    dbc.NavLink("Topic mentions by decade for rap",
+                 href="#decade-bar-topic-graph-content", external_link=True),
+    dbc.NavLink("Metadata by decade for rap",
+                 href="#decade-metadata-graph-content", external_link=True),
+    dbc.NavLink("Metadata by artist for rap decades",
+                 href="#decade-artist-metadata-graph-content", external_link=True),
+    dbc.NavLink("Decade correlation matrix",
+                 href="#decade-corr-graph-content", external_link=True),
+    dbc.NavLink("Top words by decade wordclouds",
+                 href="#decade-wordcloud-graph-content", external_link=True),
+    ],
+    vertical=True,
+    pills=True,
+)
+
 
 sidebar_groups = html.Div(
     dbc.Accordion(
         [
+            # Introduction
             dbc.AccordionItem(
                 [
                     introduction_links,
                 ],
                 title="Home / Introduction",
             ),
-
+            # Interactive charts main
             dbc.AccordionItem(
                 [
                     dbc.Accordion(
@@ -285,7 +300,7 @@ sidebar_groups = html.Div(
                 ],
                 title="Interactive charts",
             ),
-
+            # Static analysis main
             dbc.AccordionItem(
                 [
                     static_graph_links,
@@ -293,8 +308,13 @@ sidebar_groups = html.Div(
                 ],
                 title="Static analysis",
             ),
-
-
+            # rap Decades analysis
+            dbc.AccordionItem(
+                [
+                    decade_links
+                ],
+                title="Rap decades analysis",
+            ),
         ],
     )
 )
@@ -389,6 +409,18 @@ examples_div = html.Div([
     meta_images
 ])
 
+decade_items = html.Div([
+    html.H1('Rap decades (1980s - 2020s) analysis'),
+    decades_md_1,
+    decade_bar_topic_container,
+    decade_metadata_container,
+    decade_artist_metadata_container,
+    decade_corr_container,
+    decade_wordcloud_container,
+    decades_images_1,
+    decades_md_2,
+])
+
 content_div = html.Div([
     intro_items, html.Hr(),
     topic_charts, html.Hr(),
@@ -401,6 +433,8 @@ content_div = html.Div([
     examples_div,
 
     about_md_1,
+
+    decade_items,
 
 ], id='page-content', style=CONTENT_STYLE)
 

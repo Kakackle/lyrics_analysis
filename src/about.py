@@ -3,10 +3,11 @@ import dash_bootstrap_components as dbc
 
 about_md_1 = dcc.Markdown(
 '''
-    TBD:
-    * Data cleaning
-    * Extra techniques used
-    * ...
 ''',
 id='about-extra'
 )
+
+#TODO:
+    # * Data cleaning
+    # * Extra techniques used
+    # * ...

@@ -74,3 +74,29 @@ tsne_df = pd.read_csv('../data/artist_lyrics_embeddings.csv')
 
 # songs with highest topic counts
 topic_max_df = pd.read_csv('../data/topic_max_df.csv', index_col=0)
+
+
+# ---------------------------------------------------------------------------- #
+#                           rap decades analysis                               #
+# ---------------------------------------------------------------------------- #
+
+decade_counts_df = pd.read_csv('../data/decade_dataframes/decades_counts.csv', index_col=0)
+decade_sum_df = pd.read_csv('../data/decade_dataframes/decade_groupby_sum.csv',index_col=0)
+decade_mean_df = pd.read_csv('../data/decade_dataframes/decade_groupby_mean.csv',index_col=0)
+decade_artist_sum_df = pd.read_csv('../data/decade_dataframes/artist_groupby_sum.csv',index_col=0)
+decade_artist_mean_df = pd.read_csv('../data/decade_dataframes/artist_groupby_mean.csv',index_col=0)
+top_20_words_by_decade_df = pd.read_csv(
+    '../data/decade_dataframes/top_20_filtered_words_by_decade.csv' ,index_col=0)
+
+decade_topics = [ 'manual_love_count',
+                 'manual_swears_count',
+                 'manual_money_count',
+                 'manual_violence_count',
+                 'manual_drugs_count',
+                 'manual_gendered_count',
+                 'manual_sadness_count',
+                 'manual_joy_count',
+                 'manual_yes_count',
+                 'manual_no_count' ]
+
+top_20_words_by_decade_df['decade'] = top_20_words_by_decade_df.index
