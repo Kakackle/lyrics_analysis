@@ -86,6 +86,16 @@ from decades_analysis import (
     decades_images_1
 )
 
+
+from scikit_ml import (
+    scikit_md_1, scikit_md_2,
+    scikit_ex_df_1, scikit_ex_df_2,
+    scikit_md_3, scikit_md_4,
+    scikit_images_1,
+    scikit_md_5
+)
+
+
 app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 server = app.server
@@ -315,6 +325,14 @@ sidebar_groups = html.Div(
                 ],
                 title="Rap decades analysis",
             ),
+            dbc.AccordionItem(
+                [
+                    dbc.NavLink("Machine Learning",
+                        href="#scikit-md-1",
+                        external_link=True),
+                ],
+                title = "Machine Learning"
+            )
         ],
     )
 )
@@ -421,6 +439,15 @@ decade_items = html.Div([
     decades_md_2,
 ])
 
+scikit_items = html.Div([
+    html.H1('Machine learning'),
+    scikit_md_1, scikit_md_2,
+    scikit_ex_df_1, scikit_ex_df_2,
+    scikit_md_3, scikit_md_4,
+    scikit_images_1,
+    scikit_md_5
+])
+
 content_div = html.Div([
     intro_items, html.Hr(),
     topic_charts, html.Hr(),
@@ -434,7 +461,9 @@ content_div = html.Div([
 
     about_md_1,
 
-    decade_items,
+    decade_items, html.Hr(),
+
+    scikit_items
 
 ], id='page-content', style=CONTENT_STYLE)
 
