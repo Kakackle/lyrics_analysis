@@ -10,7 +10,8 @@ from topic_graphs import (
     bar_topic_container, get_topic_bar_callbacks,
     artist_bar_topic_container, get_artist_bar_topic_callbacks,
     topic_scatter_container, get_topic_scatter_callbacks,
-    topic_md_1
+    topic_md_1,
+    genre_hist_topic_container, get_genre_hist_topic_callbacks
     )
 
 from example_lyrics import (
@@ -25,6 +26,7 @@ from frequency_graphs import (
 
 from metadata_graphs import (
     genre_metadata_container, get_genre_metadata_callbacks,
+    genre_hist_metadata_container, get_genre_hist_meta_callbacks,
     artist_metadata_container, get_artist_metadata_callbacks,
     bar_line_metadata_container, get_bar_line_metadata_callbacks,
     bar_line_metadata_topic_container, get_bar_line_metadata_topic_callbacks,
@@ -77,6 +79,7 @@ from about import (
 
 from decades_analysis import (
     decade_bar_topic_container, get_decade_bar_topic_callbacks,
+    decade_hist_topic_container, get_decade_hist_topic_callbacks,
     decade_metadata_container, get_decade_medatata_callbacks,
     decade_artist_metadata_container, get_decade_artist_metadata_callbacks,
     decade_corr_container,
@@ -92,7 +95,10 @@ from scikit_ml import (
     scikit_ex_df_1, scikit_ex_df_2,
     scikit_md_3, scikit_md_4,
     scikit_images_1,
-    scikit_md_5
+    scikit_md_5,
+    scikit_md_6, scikit_md_7,
+    scikit_ex_df_3, scikit_ex_df_4,
+    scikit_md_8
 )
 
 
@@ -108,11 +114,13 @@ get_topic_callbacks(app)
 get_topic_bar_callbacks(app)
 get_artist_bar_topic_callbacks(app)
 get_topic_scatter_callbacks(app)
+get_genre_hist_topic_callbacks(app)
 
 get_artist_freq_dist_callbacks(app)
 get_genre_freq_dist_callbacks(app)
 
 get_genre_metadata_callbacks(app)
+get_genre_hist_meta_callbacks(app)
 get_artist_metadata_callbacks(app)
 get_bar_line_metadata_callbacks(app)
 get_bar_line_metadata_topic_callbacks(app)
@@ -122,8 +130,10 @@ get_artist_wordcloud_callbacks(app)
 get_ngram_artist_wordcloud_callbacks(app)
 
 get_decade_bar_topic_callbacks(app)
+get_decade_hist_topic_callbacks(app)
 get_decade_medatata_callbacks(app)
 get_decade_artist_metadata_callbacks(app)
+
 
 
 # ---------------------------------------------------------------------------- #
@@ -152,6 +162,8 @@ CONTENT_STYLE = {
 
 topic_graph_links = dbc.Nav([
     dbc.NavLink("Topic mentions by genre", href="#bar-topic-graph-content",
+                    external_link=True),
+    dbc.NavLink("Topic mentions distribution within-genre", href="#genre-hist-topic-graph-content",
                     external_link=True),
     dbc.NavLink("Topic mentions by artist", href="#artist-bar-topic-graph-content",
                     external_link=True),
@@ -196,6 +208,8 @@ word_graph_links = dbc.Nav([
 
 meta_graph_links = dbc.Nav([
     dbc.NavLink("Artist metadata by genre (mean)", href="#genre-metadata-graph-content",
+                    external_link=True),
+    dbc.NavLink("Metadata dristibution by genre (counts)", href="#genre-hist-meta-graph-content",
                     external_link=True),
     dbc.NavLink("Artist metadata by artist (mean)", href="#artist-metadata-graph-content",
                     external_link=True),
@@ -246,6 +260,8 @@ extra_links = dbc.Nav([
 decade_links = dbc.Nav([
     dbc.NavLink("Topic mentions by decade for rap",
                  href="#decade-bar-topic-graph-content", external_link=True),
+    dbc.NavLink("Topic mentions distribution within-decade",
+                 href="#decade-hist-topic-graph-content", external_link=True),
     dbc.NavLink("Metadata by decade for rap",
                  href="#decade-metadata-graph-content", external_link=True),
     dbc.NavLink("Metadata by artist for rap decades",
@@ -254,6 +270,18 @@ decade_links = dbc.Nav([
                  href="#decade-corr-graph-content", external_link=True),
     dbc.NavLink("Top words by decade wordclouds",
                  href="#decade-wordcloud-graph-content", external_link=True),
+    ],
+    vertical=True,
+    pills=True,
+)
+
+scikit_links = dbc.Nav([
+    dbc.NavLink("Classification",
+        href="#scikit-md-1",
+        external_link=True),
+    dbc.NavLink("Regression",
+        href="#scikit-md-6",
+        external_link=True),
     ],
     vertical=True,
     pills=True,
@@ -327,9 +355,7 @@ sidebar_groups = html.Div(
             ),
             dbc.AccordionItem(
                 [
-                    dbc.NavLink("Machine Learning",
-                        href="#scikit-md-1",
-                        external_link=True),
+                    scikit_links
                 ],
                 title = "Machine Learning"
             )
@@ -370,6 +396,7 @@ topic_charts = html.Div([
     html.H1(children='Topical analysis'),
     topic_md_1,
     bar_topic_container,
+    genre_hist_topic_container,
     artist_bar_topic_container, 
     topic_scatter_container, 
     topic_container,
@@ -400,6 +427,7 @@ meta_charts = html.Div([
     html.H1('Song metadata analysis'),
     meta_md_1,
     genre_metadata_container,
+    genre_hist_metadata_container,
     artist_metadata_container,
     bar_line_metadata_container,
     bar_line_metadata_topic_container,
@@ -431,6 +459,7 @@ decade_items = html.Div([
     html.H1('Rap decades (1980s - 2020s) analysis'),
     decades_md_1,
     decade_bar_topic_container,
+    decade_hist_topic_container,
     decade_metadata_container,
     decade_artist_metadata_container,
     decade_corr_container,
@@ -440,12 +469,19 @@ decade_items = html.Div([
 ])
 
 scikit_items = html.Div([
-    html.H1('Machine learning'),
+    html.H1('Machine Learning'),
+    # classification
+    html.H3("Classification"),
     scikit_md_1, scikit_md_2,
     scikit_ex_df_1, scikit_ex_df_2,
     scikit_md_3, scikit_md_4,
     scikit_images_1,
-    scikit_md_5
+    scikit_md_5,
+    # regression
+    html.H3("Regression"),
+    scikit_md_6, scikit_md_7,
+    scikit_ex_df_3, scikit_ex_df_4,
+    scikit_md_8
 ])
 
 content_div = html.Div([

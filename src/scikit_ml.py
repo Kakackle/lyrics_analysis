@@ -145,7 +145,15 @@ def train_classify_target(df, target_col, model, train_size=0.8, task='class'):
     if task == 'regr':
         mae = mean_absolute_error(y_valid, preds)
         r2 = r2_score(y_valid, preds)
-        return [mae, r2, model]
+        return {
+            "mae": mae,
+            "r2": r2,
+            "model": model,
+            "preds": preds,
+            "X_valid": X_valid,
+            "y_valid": y_valid,
+            "train_pipeline": train_pipeline
+        }
     
 
 def save_confusion_matrix(cm, labels, exp_name):
@@ -168,7 +176,7 @@ counts_genre_results = train_classify_target(
     model = counts_genre_model
 )
 
-print("acc: ", counts_genre_results['acc'], "f1: ", counts_genre_results['f1'])
+# print("acc: ", counts_genre_results['acc'], "f1: ", counts_genre_results['f1'])
 
 test_index = counts_genre_results['X_valid'].head(1).index
 
@@ -176,7 +184,6 @@ test_counts_slice = counts_df.loc[test_index, ['Artist', 'Song Title', 'Song Lyr
 test_X_valid = counts_genre_results['X_valid'].loc[test_index, :]
 counts_genre_pred = counts_genre_results['train_pipeline'].predict(
     counts_genre_results['X_valid'].loc[test_index, :])
-# print("test pred: ", counts_genre_pred)
 
 save_confusion_matrix(cm = counts_genre_results['cm'],
                       labels = counts_genre_results['labels'],
@@ -273,5 +280,69 @@ scikit_md_5 = dcc.Markdown(
     Which can be seen in a notebook called scikit_ml_attempts in the source folder in the repo
 '''
 )
+
+# ---------------------------------------------------------------------------- #
+#                      regress for unique_words on counts                      #
+# ---------------------------------------------------------------------------- #
+
+scikit_md_6 = dcc.Markdown(
+'''
+    As an example, an attempt to predict the number of unique words per song was conducted,
+    using scikit-learn's implementation of Support Vector regression. The training steps taken
+    were almost identical to classification, with one-hot encoding on categorical variables
+    and the numerical values scaled. For result measurement the mean absolute error and a R2 score
+    were calculated.
+
+    Below presented are:
+    * A random sample song to predict on
+    * The values which were used for that prediction
+    * The prediction and the mae and r2 scores
+''',
+id = 'scikit-md-6'
+)
+
+counts_unique_model = SVR()
+counts_unique_results = train_classify_target(
+    df = classif_counts_df,
+    target_col = 'unique_words',
+    model = counts_unique_model,
+    task = 'regr'
+)
+
+regr_test_index = counts_unique_results['X_valid'].head(1).index
+
+regr_test_counts_slice = counts_df.loc[regr_test_index, ['Artist', 'Song Title', 'Song Lyrics', 'unique_words']]
+regr_test_X_valid = counts_unique_results['X_valid'].loc[regr_test_index, :]
+counts_unique_pred = counts_unique_results['train_pipeline'].predict(
+    counts_unique_results['X_valid'].loc[regr_test_index, :])
+
+scikit_md_7 = dcc.Markdown(f'MAE: {counts_unique_results["mae"]}, \
+                            r2 score: {counts_unique_results["r2"]}')
+
+scikit_ex_df_3 = dash_table.DataTable(
+    regr_test_counts_slice.to_dict('records'),
+    columns=[{"name": c, "id": c} for c in regr_test_counts_slice.columns],
+    style_header={
+        'backgroundColor': 'rgb(210, 210, 210)',
+        'color': 'black',
+        'fontWeight': 'bold'
+    },
+    style_table={"overflowX": "auto"},
+    id='scikit-ex-df-3'
+)
+
+scikit_ex_df_4  = dash_table.DataTable(
+    regr_test_X_valid.to_dict('records'),
+    columns=[{"name": c, "id": c} for c in regr_test_X_valid.columns],
+    style_header={
+        'backgroundColor': 'rgb(210, 210, 210)',
+        'color': 'black',
+        'fontWeight': 'bold'
+    },
+    style_table={"overflowX": "auto"},
+    id='scikit-ex-df-4'
+)
+
+scikit_md_8 = dcc.Markdown(f'Predicted unique words: {counts_unique_pred}')
 
 

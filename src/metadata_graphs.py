@@ -9,7 +9,8 @@ from dataframes import (
     genre_mean_df, artist_mean_df,
     counts_df,
     meta_columns,
-    topics
+    topics,
+    genres
 )
 
 # ---------------------------------------------------------------------------- #
@@ -53,7 +54,70 @@ def get_genre_metadata_callbacks(app):
         meta_fig = px.bar(genre_mean_df, x=genre_mean_df.index, y=genre_mean_df[meta_col])
         # meta_fig = graph_objects.Figure()
         return [meta_fig,]
-    
+
+
+# ---------------------------------------------------------------------------- #
+#        Histogram for genre and chosen metric and chosen number of bins       #
+# ---------------------------------------------------------------------------- #
+
+genre_hist_metadata_controls = dbc.Card(
+    [
+        html.Div(
+            [
+            dbc.Label("Metadata metric"),
+            dcc.Dropdown(options = meta_columns,
+                        value = ['unique_words',],
+                        id='genre-hist-meta-selection',
+                        multi=True)
+            ]),
+        html.Div(
+            [
+            dbc.Label("Genre"),
+            dcc.Dropdown(options = list(genres),
+                        value = ['pop',],
+                        id='meta-hist-genre-selection')
+            ]),
+        html.Div([
+            dbc.Label("Number of bins"),
+            dcc.Slider(1, 20, 1,
+                       value = 10,            
+                        id = 'meta-hist-bins-selection'
+                       ),
+            ])
+    ],
+    body=True,
+)
+
+genre_hist_metadata_container = dbc.Container([
+    html.H3(children = 'Genre metadata distribution by genre (counts)',
+             style={'textAlign': 'center'}),
+    dbc.Row(
+        [
+            dbc.Col(genre_hist_metadata_controls, md=4),
+            dbc.Col(dcc.Graph(id='genre-hist-meta-graph-content'), md=8),
+        ],
+        align="center",
+    ),
+], fluid=True)
+
+def get_genre_hist_meta_callbacks(app):
+    # Topic counts /percentages comparison by artist bars (within genre)
+    @app.callback(
+        [
+            Output('genre-hist-meta-graph-content', 'figure'),
+        ],
+        [
+            Input('genre-hist-meta-selection', 'value'),
+            Input('meta-hist-genre-selection', 'value'),
+            Input('meta-hist-bins-selection', 'value'), 
+        ]
+    )
+    def update_hist_meta_graph(meta, genre, nbins):
+        genre_df = counts_df[counts_df['genre'] == genre]
+        hist_fig = px.histogram(genre_df, x=meta, nbins=nbins)
+        return [hist_fig,]
+
+
 # ---------------------------------------------------------------------------- #
 #       Artist metadata (unique_words, producer_count etc) means by artist      #
 # ---------------------------------------------------------------------------- #

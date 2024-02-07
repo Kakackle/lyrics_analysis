@@ -65,7 +65,66 @@ def get_decade_bar_topic_callbacks(app):
         
         # return bar_fig, f'topics: {topics} topics_list: {topics_list}'
         return [bar_fig,]
-    
+
+# ---------------------------------------------------------------------------- #
+#        Histogram for genre and chosen metric and chosen number of bins       #
+# ---------------------------------------------------------------------------- #
+
+decade_hist_topic_controls = dbc.Card(
+    [
+        html.Div(
+            [
+            dbc.Label("Metadata metric"),
+            dcc.Dropdown(options = decade_topics,
+                        value = ['manual_love_count',],
+                        id='decade-hist-topic-selection',
+                        multi=True)
+            ]),
+        html.Div(
+            [
+            dbc.Label("Genre"),
+            dcc.Dropdown(options = list(decade_counts_df['decade'].unique()),
+                        value = ['2000s',],
+                        id='decade-hist-decade-selection')
+            ]),
+        html.Div([
+            dbc.Label("Number of bins"),
+            dcc.Slider(1, 20, 1,
+                       value = 10,            
+                        id = 'decade-hist-bins-selection'
+                       ),
+            ])
+    ],
+    body=True,
+)
+
+decade_hist_topic_container = dbc.Container([
+    html.H3(children = 'Topical mentions distribution by decade (counts)',
+             style={'textAlign': 'center'}),
+    dbc.Row(
+        [
+            dbc.Col(decade_hist_topic_controls, md=4),
+            dbc.Col(dcc.Graph(id='decade-hist-topic-graph-content'), md=8),
+        ],
+        align="center",
+    ),
+], fluid=True)
+
+def get_decade_hist_topic_callbacks(app):
+    @app.callback(
+        [
+            Output('decade-hist-topic-graph-content', 'figure'),
+        ],
+        [
+            Input('decade-hist-topic-selection', 'value'),
+            Input('decade-hist-decade-selection', 'value'),
+            Input('decade-hist-bins-selection', 'value'), 
+        ]
+    )
+    def update_decade_hist_topic_graph(topic, decade, nbins):
+        decade_df = decade_counts_df[decade_counts_df['decade'] == decade]
+        hist_fig = px.histogram(decade_df, x=topic, nbins=nbins)
+        return [hist_fig,]
 
 # ---------------------------------------------------------------------------- #
 #      Artist metadata (unique_words, producer_count etc) means by decade      #

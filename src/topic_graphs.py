@@ -188,7 +188,7 @@ artist_bar_topic_controls = dbc.Card(
 )
 
 artist_bar_topic_container = dbc.Container([
-    html.H3(children = 'Within-genre comparison of topic mentions',
+    html.H3(children = 'Within-genre artists comparison of topic mentions',
              style={'textAlign': 'center'}),
     dbc.Row(
         [
@@ -222,6 +222,67 @@ def get_artist_bar_topic_callbacks(app):
         
         return [bar_fig,]
 
+
+# ---------------------------------------------------------------------------- #
+#        Histogram for genre and chosen metric and chosen number of bins       #
+# ---------------------------------------------------------------------------- #
+
+genre_hist_topic_controls = dbc.Card(
+    [
+        html.Div(
+            [
+            dbc.Label("Topic mentions"),
+            dcc.Dropdown(options = topics,
+                        value = ['manual_love_count',],
+                        id='genre-hist-topic-selection',
+                        multi=True)
+            ]),
+        html.Div(
+            [
+            dbc.Label("Genre"),
+            dcc.Dropdown(options = list(genres),
+                        value = ['pop',],
+                        id='genre-hist-genre-selection')
+            ]),
+        html.Div([
+            dbc.Label("Number of bins"),
+            dcc.Slider(1, 20, 1,
+                       value = 10,            
+                        id = 'genre-hist-bins-selection'
+                       ),
+            ])
+    ],
+    body=True,
+)
+
+genre_hist_topic_container = dbc.Container([
+    html.H3(children = 'Within-genre topic mentions distribution',
+             style={'textAlign': 'center'}),
+    dbc.Row(
+        [
+            dbc.Col(genre_hist_topic_controls, md=4),
+            dbc.Col(dcc.Graph(id='genre-hist-topic-graph-content'), md=8),
+        ],
+        align="center",
+    ),
+], fluid=True)
+
+def get_genre_hist_topic_callbacks(app):
+    # Topic counts /percentages comparison by artist bars (within genre)
+    @app.callback(
+        [
+            Output('genre-hist-topic-graph-content', 'figure'),
+        ],
+        [
+            Input('genre-hist-topic-selection', 'value'),
+            Input('genre-hist-genre-selection', 'value'),
+            Input('genre-hist-bins-selection', 'value'),
+        ]
+    )
+    def update_hist_topic_graph(topic, genre, nbins):
+        genre_df = counts_df[counts_df['genre'] == genre]
+        hist_fig = px.histogram(genre_df, x=topic, nbins=nbins)
+        return [hist_fig,]
 
 # ---------------------------------------------------------------------------- #
 #       scatter for artist / genre where x = one topic, y = second topic       #
