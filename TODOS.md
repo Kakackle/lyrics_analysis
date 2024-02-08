@@ -6,6 +6,5 @@
 6. ~~rzeczy z kartki~~
 7. ~~ Lepsze layouty controls, szczegolnie te koncowe wordclouds w krate zamiast pionowo, ogladaj jak layotu wyglada na fullscreenie a nie tym bocznym~~
 9. ~~words more common to one genre nie dziala~~
-10. TODO: dekady rap
-11. TODO: tytuly osi chyba okej
-12. TODO: 
+10. ~~DEKADY RAP~~
+ 
