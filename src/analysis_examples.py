@@ -56,11 +56,12 @@ examples_md_1 = dcc.Markdown(
 
     ### Topical analysis
 
-    Observing topical mentions between genres, a strong tendecy towards love-related topics can be seen
-    for pop and soul especially, but also as a stron contributing factor for other genres.
+    Observing topical mentions between genres, a strong tendecy towards love-related topics can be seen for all genres,
+    but especially for pop and soul it seem to be a contributing factor.
 
-    For easier comparison between other topics, a second chart is shown, with love excluded from display.
-'''
+    For ease of comparison between other topics, a second chart is shown, with 'love' counts excluded.
+''',
+id = 'examples-topical'
 )
 
 # img_path = 'assets/counts_by_genre_bar.png'
@@ -81,7 +82,7 @@ topic_images_1 = html.Div([
 
 examples_md_2 = dcc.Markdown(
 '''
-    Looking at within-genre artist comparisons, for pop, some standout when it comes to love-like topics
+    Looking at within-genre artist comparisons, for pop, some standouts when it comes to love-like topics
     include Olivia Rodrigo and Taylor Swift, which often do tend to write about breakups or otherwise unsatisfactory
     relationships.
 
@@ -106,12 +107,13 @@ examples_md_3 = dcc.Markdown(
     Bearing in mind topical mention results, can similar conclusions be reached from looking at
     sentiment and emotion-based analysis? Having in mind the imperfections of models used, a strong
     tendency of pop and soul artists to mention love-related topics could guide the algorithms to grade
-    the songs as psitive, whilst a more varied spread of topics could be related to the higher amount of
+    the songs as positive, whilst a more varied spread of topics could be related to the higher amount of
     neutrally graded songs for rap.
 
     Similar conclusions could be reached for the emotional analysis, though the overwhelming majority
-    of 'joy'-classified songs should perhaps warrant a deeper look at the exact data the model was trained on.
-'''
+    of 'joy'-classified songs should perhaps warrant a deeper look at the exact data that the model was trained on.
+''',
+id = 'examples-sentiment'
 )
 
 sentiment_images = html.Div([
@@ -125,12 +127,12 @@ examples_md_4 = dcc.Markdown(
 '''
     ### Word usage analysis
 
-    As was noted in the introduction, the amount of songs considered for each genre and each artist were quite limited.
-    Such a decision was made in the initial planning of this analysis to include the essential parts of the possible differences
-    between genres, artists and otherwise. A possible continuation of this project could perhaps include more data, to see if
-    the results change.
+    As noted in the introduction, the amount of songs considered for each genre and each artist was quite limited.
+    Such a decision was made in the initial planning of this analysis as to try to capture the essential parts of the possible differences
+    between genres, artists and otherwise, without having to look at unmanageable amounts of data.
+    A possible continuation of this project could perhaps include more data, validating whether the results change.
 
-    As a result of this, Carly Rae Jepsen's vocabulary seems to include the word 'hijack' with a quite
+    As a result of the scale of the project, Carly Rae Jepsen's vocabulary seems to include the word 'hijack' with a quite
     high uniqueness score attached to it. This is a result of her song 'Making the Most of the Night' being included in the
     dataset, which mentions the word over 20 times, whilst other songs across other genres use this word sparingly.
 
@@ -141,7 +143,8 @@ examples_md_4 = dcc.Markdown(
 
     Looking at unique words by genre, rap lyrics seem to be uniquely violent. At least when compared to these other manually chosen genres
     and the manually chosen artists representing them.
-'''
+''',
+id = 'examples-words'
 )
 
 unique_word_images_1 = html.Div([
@@ -159,7 +162,8 @@ examples_md_5 = dcc.Markdown(
     which also correlates with the mean of total words used, but also - with the mean of number of featured artists.
     Rap songs tend to be more focused on having multiple verses rather than on choruses, but a higher tendency to feature
     other artist on songs could perhaps explain this - every artist will probably have something different to say in their verse.
-'''
+''',
+id = 'examples-meta'
 )
 
 unique_word_images_2 = html.Div([

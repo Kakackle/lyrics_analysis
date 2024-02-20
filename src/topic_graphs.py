@@ -349,18 +349,20 @@ topic_md_1 = dcc.Markdown(
 '''
     The initial goal of the whole analysis project, was to explore the data and look for potential
     tendencies, trends or other metrics that could be observed as clearly differentiating (or connecting)
-    the lyrics of artists between and withing genres.
+    the lyrics of artists between and within genres.
     
-    For this part, a system was devised to look for mentions of words related to certain topics, such as 'love',
-    'sadness', 'joy' or groups souch as gendered word or representing affirmation or denial.
+    For this part, a system was devised to look for mentions of words related to certain topics or themes,
+    such as 'love', 'sadness', 'joy' or word groups such as gendered words or words
+    representing affirmation or denial.
 
-    For example, for 'love', the words considered to the group included 'love', 'lover', 'honey', 'baby',
-    'heart', sweetheart', 'loverboy', 'babygirl'
+    As an example for the topical group **'love'**, the words considered as belonging to the group
+    included words such as 'love', 'lover', 'honey', 'baby', 'heart', sweetheart', 'loverboy', 'babygirl'
 
-    The choicer of the words for each group was done manually, using tools such as a [Thesaurus](https://www.thesaurus.com/)
+    The choice of the words for each group was done manually, using tools such as a [Thesaurus](https://www.thesaurus.com/)
     and other manual word similarity lookup attempts.
 
     The usage of a word/sentence vectorizer with embeddings for determining word closeness/similarity was considered,
-    but initial experiments did not yield sufficiently satisfying results.
+    but initial experiments did not yield sufficiently satisfying results, with words considered as similar by such models,
+    being so in more abstract terms.
 '''
 )

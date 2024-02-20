@@ -309,9 +309,8 @@ meta_md_1 = dcc.Markdown(
     These factors include artist metadata such as featured artist, producer and writer counts for songs, the 
     and the vocabulary sizes.
 
-    These visualizations are meant to look for potential correlations between them both between genres and artists,
-    which may help add some context or potential causes to differences observed from previous parts.
-     
+    These visualizations are meant to look for potential correlations both between genres and artists,
+    which may help add some context or potential causes to differences observed from previous analysis.
 '''
 )
 

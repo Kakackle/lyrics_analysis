@@ -295,17 +295,18 @@ sentiment_md_1 = dcc.Markdown(
     and the general emotion conveyed by each song.
 
     For sentiment analysis, a pretrained VADER (Valence Aware Dictionary and sEntiment Reasoner) analyzer
-    was used from the popular language processing library [NTLK](https://www.nltk.org/),
+    was used with the use of the popular language processing library [NTLK](https://www.nltk.org/),
     which's accuracy may not be perfect, as it was intended to be used for more short-form texts,
     but it may provide a good guiding point.
 
-    Also necessary to mention, not only are lyrics text usually longer form, but often include repetitions,
-    for choruses and otherwise, which may guide models, but also, a key component of lyricsm are 
+    What's also necessary to mention is that not only are lyrical texts usually in longer form,
+    but often also include repetitions, as part of  choruses and otherwise, which may guide/trick models into
+    giving more importance to some words. Additionally, key component of widely-understood lyricsm are 
     aristic tools such as abstractions, implication and entendres, leaving the songs to more open,
-    non-direct interpretation.
+    non-direct interpretation, potentially extremely hard for the models used to capture.
 
     For emotional classification, a pre-trained [model](https://huggingface.co/mrm8488/t5-base-finetuned-emotion), which
-    was itself transfer-trained from google's T5 text-to-text model
+    was itself transfer-trained from google's T5 text-to-text model.
 '''
 )
 
@@ -313,7 +314,7 @@ sentiment_md_1 = dcc.Markdown(
 tsne_fig = px.scatter(tsne_df, x='x', y='y', color='genre', hover_data=['Artist'])
 
 tsne_container = dbc.Container([
-    html.H3(children = 't-SNE artist lyrics embeddings relations', style={'textAlign': 'center'}),
+    html.H3(children = 't-SNE artist lyrics embeddings similarity', style={'textAlign': 'center'}),
     dcc.Graph(id='tsne-graph-content',
              figure = tsne_fig)
 ], fluid=True)
@@ -326,7 +327,7 @@ corr_md_1 = dcc.Markdown(
     BERT-based Doc2Vec [model](https://www.analyticsvidhya.com/blog/2020/08/top-4-sentence-embedding-techniques-using-python/)
     , then using scikit-learn's t-SNE implementation of a dimensionality reduction transformation, for visualization purposes
 
-    Because of t-SNE's approximal behaviour and heavy dimensionality reduction, the results are to be taken with apprehension,
-    certain correlations can nevertheless be seen between genres and artists within them.
+    Because of t-SNE's approximal behaviour and heavy dimensionality reduction, the results are to be taken with apprehension.
+    Certain correlations can nevertheless be seen between genres and artists within them.
 '''
 )

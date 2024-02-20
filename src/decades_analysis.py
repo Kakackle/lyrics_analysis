@@ -304,24 +304,22 @@ decade_wordcloud_container = dbc.Container([
 
 decades_md_1 = dcc.Markdown(
 '''
-    A shorter analysis for comparing the lyrics of rap artists between decades,
-    where the affilication with a decade was chosen semi-manually, by the popularity
+    As a supplement / a further example of using the created data engineering tools for comparins lyrical contents,
+    an analysis of of rap artists lyrics between decades is presented,
+    where the affiliation with a decade was chosen semi-manually, partially by the popularity
     rankings of artist releases on [rateyourmusic](https://rateyourmusic.com/), even though some of
-    them have been in the scene for multiple decades.
+    the artists considered have been in the scene for multiple decades.
 
-    This analysis is presented as a supplemental use of developed data engineering and analysis
-    tools to a slightly different dataset.
-
-    The decades include the 1980s, 1990s, 2000s, 2010s, 2020s, ach one represented by 10 artists,
+    The decades considered include the 1980s, 1990s, 2000s, 2010s, 2020s, each one represented by 10 artists,
     20 songs from each artist (again chosen as the 20 most popular artist songs on genius.com), for
-    a total dataset size of 500 songs, split across 5 decades.
+    a total dataset size of 1000 songs, split across 5 decades.
 '''    
 )
 
 decades_md_2 = dcc.Markdown(
 '''
     At a quick glance, some potential relationships between the decades can be seen,
-    although possibly guided by artist choice and not definitive.
+    although possibly guided by artist choice and not definitive to the population.
 
     For example:  
     * Looking at the change in total and unique word count means across decades, a reduction

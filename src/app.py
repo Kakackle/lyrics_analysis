@@ -225,7 +225,7 @@ meta_graph_links = dbc.Nav([
 corr_sne_graph_links = dbc.Nav([
     dbc.NavLink("Correlation Matrix", href="#corr-graph-content",
                     external_link=True),
-    dbc.NavLink("t-SNE", href="#tsne-graph-content",
+    dbc.NavLink("Artist/genre t-SNE similarity", href="#tsne-graph-content",
                     external_link=True),
     ],
     vertical=True,
@@ -234,7 +234,13 @@ corr_sne_graph_links = dbc.Nav([
 
 
 static_graph_links = dbc.Nav([
-    dbc.NavLink("Examplary analysis", href="#examples-div",
+    dbc.NavLink("Topical analysis", href="#examples-topical",
+                    external_link=True),
+    dbc.NavLink("Sentiment analysis", href="#examples-sentiment",
+                    external_link=True),
+    dbc.NavLink("Word-based analysis", href="#examples-words",
+                    external_link=True),
+    dbc.NavLink("Metadata analysis", href="#examples-meta",
                     external_link=True),
     ],
     vertical=True,
@@ -243,8 +249,8 @@ static_graph_links = dbc.Nav([
 
 introduction_links = dbc.Nav([
     dbc.NavLink("Home", href="#start", external_link=True),
-    dbc.NavLink("Markdown Intro", href="#md-intro", external_link=True),
-    dbc.NavLink("Counts df", href="#counts-df", external_link=True),
+    dbc.NavLink("Introduction", href="#md-intro", external_link=True),
+    dbc.NavLink("Raw data preview", href="#counts-df", external_link=True),
     ],
     vertical=True,
     pills=True,
@@ -307,31 +313,31 @@ sidebar_groups = html.Div(
                                 [
                                     topic_graph_links,
                                 ],
-                                title = 'Topic charts'
+                                title = 'Topic-based'
                             ),
                         dbc.AccordionItem(
                                 [
                                     sentiment_graph_links,
                                 ],
-                                title = 'Sentiment charts'
+                                title = 'Sentiments and emotions'
                             ),  
                         dbc.AccordionItem(
                                 [
                                     word_graph_links,
                                 ],
-                                title = 'Word charts'
+                                title = 'Word usage'
                             ),  
                         dbc.AccordionItem(
                                 [
                                     meta_graph_links,
                                 ],
-                                title = 'Meta charts'
+                                title = 'Song metadata'
                             ),  
                         dbc.AccordionItem(
                                 [
                                     corr_sne_graph_links,
                                 ],
-                                title = 'Corr/sne charts'
+                                title = 'Correlations'
                             ),  
                         ],
                     )
@@ -342,22 +348,22 @@ sidebar_groups = html.Div(
             dbc.AccordionItem(
                 [
                     static_graph_links,
-                    extra_links,
+                    # extra_links,
                 ],
-                title="Static analysis",
+                title="Static explaratory analysis",
             ),
             # rap Decades analysis
             dbc.AccordionItem(
                 [
                     decade_links
                 ],
-                title="Rap decades analysis",
+                title="Rap music through decades",
             ),
             dbc.AccordionItem(
                 [
                     scikit_links
                 ],
-                title = "Machine Learning"
+                title = "Predicting genres"
             )
         ],
     )
@@ -366,10 +372,10 @@ sidebar_groups = html.Div(
 
 sidebar = html.Div(
     [
-        html.H2("Lyrics analysis", className="display-4"),
+        html.H2("4 worlds", className="display-4"),
         html.Hr(),
         html.P(
-            "Navigate to sections of the analysis", 
+            "Feel free to use the navigation to jump around the project sections", 
             className="lead"
         ),
         sidebar_groups,
@@ -384,7 +390,7 @@ sidebar = html.Div(
 # ---------------------------------------------------------------------------- #
 
 intro_items = html.Div([
-    html.H1(children='Lyrics analysis project', id='start'),
+    html.H1(children='4 worlds - a look at the lyrical contents of 4 genres - a EDA project', id='start'),
     md_intro_1,
     artist_df_table,
     md_intro_2,
@@ -495,7 +501,7 @@ content_div = html.Div([
     html.H1(children='Examplary / static analysis'),
     examples_div,
 
-    about_md_1,
+    # about_md_1,
 
     decade_items, html.Hr(),
 

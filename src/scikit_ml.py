@@ -270,12 +270,11 @@ scikit_md_5 = dcc.Markdown(
     As seen, the results seem quite satisfactory, with a high accuracy rating.
 
     Other training tests conducted were:
-    * Classification of genre based on numerical data, gender, ...
-    * Classification of gender based on numerical data, genre, ... - watch out, very unbalanced
-    * Classification of artist based on numerical data, genre, ...
-    * Classification of genre for groupby mean data
-    * Regression of unique_words, total_words, topic count etc
-    * Same things for decade data except no gender and decade classification instead of genre 
+    * Classification of genre based on numerical data, the artist's genre etc
+    * Classification of gender based on numerical data, song genre, etc., with the caveat of the disbalance of gender distribution
+    * Classification of artist's name.
+    * Classification of genre from averaged data points.
+    * Regression of unique_words, total_words, topic counts.
 
     Which can be seen in a notebook called scikit_ml_attempts in the source folder in the repo
 '''
@@ -287,8 +286,8 @@ scikit_md_5 = dcc.Markdown(
 
 scikit_md_6 = dcc.Markdown(
 '''
-    As an example, an attempt to predict the number of unique words per song was conducted,
-    using scikit-learn's implementation of Support Vector regression. The training steps taken
+    As an example of regression learning, an attempt to predict the number of unique words per song was conducted,
+    using scikit-learn's implementation of Support Vector Regression. The training steps taken
     were almost identical to classification, with one-hot encoding on categorical variables
     and the numerical values scaled. For result measurement the mean absolute error and a R2 score
     were calculated.

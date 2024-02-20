@@ -32,7 +32,7 @@ topic_max_df.reset_index(drop=True, inplace=True)
 
 topic_max_md_1 = dcc.Markdown(
 '''
-    For futher insight, below presented are the songs that got the highest amount of each topic mentions
+    For further insight, below presented are the songs with the highest counts of each topic mentions
 '''
 )
 
